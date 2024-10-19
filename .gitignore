@@ -1,4 +1,11 @@
 llm
+results
+papers
+support
+example
+.vscode
+Mastering-Transformers-Second-Edition
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
