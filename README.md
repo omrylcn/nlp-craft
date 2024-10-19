@@ -21,3 +21,12 @@
 - https://github.com/rasbt/low-rank-adaptation-blog/tree/main/code
 - https://github.com/rasbt/blog-finetuning-llama-adapters/tree/main/three-conventional-methods
 - https://github.com/rasbt/LLMs-from-scratch/blob/main/appendix-E/01_main-chapter-code/appendix-E.ipynb
+  - intro : start with hf dataset and use bert text classifcaiton example 
+  - a end to end test classicaiton many models traindional methods to advance level last trends model
+  - llm starting and prompt
+  - petf - adapter
+  - lora and variance
+  - some problems and notes
+  - rag
+  - llm aplications and production
+  - serve models and lmops
