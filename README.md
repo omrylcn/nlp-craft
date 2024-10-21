@@ -1,4 +1,4 @@
-# NLP-Works
+# NLP Notes and Links
 
 This repository is a collection of resources and information related to advancements in Natural Language Processing (NLP), with a focus on Large Language Models (LLMs) and parameter-efficient finetuning techniques.
 
