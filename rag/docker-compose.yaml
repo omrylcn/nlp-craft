@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  chroma_db:
+    image: ghcr.io/chroma-core/chroma:latest
+    volumes:
+      - chroma_data:/chroma/chroma
+    environment:
+      - ALLOW_RESET=${ALLOW_RESET:-true}
+    ports:
+      - "${CHROMA_PORT:-8000}:8000"
+    networks:
+      - rag_network
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-course_assistant}
+      POSTGRES_USER: ${POSTGRES_USER:-your_username}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-your_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    networks:
+      - rag_network
+
+  grafana:
+    image: grafana/grafana:latest
+    depends_on:
+      - postgres
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_DB=${POSTGRES_DB:-course_assistant}
+      - POSTGRES_USER=${POSTGRES_USER:-your_username}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-your_password}
+    volumes:
+      - ./grafana_data:/var/lib/grafana
+      - ./grafana_data/provisioning:/etc/grafana/provisioning
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    networks:
+      - rag_network
+
+networks:
+  rag_network:
+    driver: bridge
+
+volumes:
+  chroma_data:
+  postgres_data:
+  grafana_data:
