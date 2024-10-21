@@ -5,7 +5,19 @@ support
 example
 .vscode
 Mastering-Transformers-Second-Edition
+04-monitoring
+rag/chroma_db
 
+
+# rag
+
+rag/grafana_data/grafana.db
+rag/grafana_data/png
+rag/grafana_data/plugins
+rag/grafana_data/pdf
+rag/grafana_data/grafana-apiserver
+rag/grafana_data/grafana-apiserver/resource
+rag/grafana_data/csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
