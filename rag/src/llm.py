@@ -1,4 +1,3 @@
-# llm.py
 from langchain_openai import ChatOpenAI
 from langchain_openai import OpenAIEmbeddings
 from sentence_transformers import SentenceTransformer
