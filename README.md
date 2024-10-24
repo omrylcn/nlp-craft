@@ -21,10 +21,19 @@ This section focuses on the integration of semantic search and retrieval capabil
 - [Hands-On-Large-Language-Models - Chapter 8 - Semantic Search and Retrieval-Augmented Generation](https://github.com/HandsOnLLM/Hands-On-Large-Language-Models/tree/main/chapter08)
 - [Building an LLM open source search engine in 100 lines using LangChain and Ray](https://www.anyscale.com/blog/llm-open-source-search-engine-langchain-ray)
 
+
+## Useful Links
+ 
+- [Building AI for Production](https://towardsai.net/book)
+
+
+
 ## Code Repositories
 
 This section links to various code repositories and Jupyter Notebooks that provide practical implementations and examples of the techniques discussed in this README.
 
+- [Advanced_RAG : Advanced Retrieval-Augmented Generation (RAG) through practical notebooks, using the power of the Langchain, OpenAI GPTs ,META LLAMA3 ,Agents](https://github.com/NisaarAgharia/Advanced_RAG)
+- [RagBook Notebooks](https://github.com/towardsai/ragbook-notebooks?tab=readme-ov-file)
 - [Low-Rank Adaptation Blog Code](https://github.com/rasbt/low-rank-adaptation-blog/tree/main/code)
 - [Blog: Finetuning LLaMA Adapters Code](https://github.com/rasbt/blog-finetuning-llama-adapters/tree/main/three-conventional-methods)
 - [LLMs from Scratch Appendix E Notebook](https://github.com/rasbt/LLMs-from-scratch/blob/main/appendix-E/01_main-chapter-code/appendix-E.ipynb)
