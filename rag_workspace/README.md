@@ -1,5 +1,5 @@
 ### RAG Workspace
-
+![images](images/rag.png)
 
 ### Codes
 - [langgraph - rag](https://github.com/langchain-ai/langgraph/tree/main/examples/rag)
