@@ -8,7 +8,10 @@ Mastering-Transformers-Second-Edition
 04-monitoring
 rag/chroma_db
 need_fix
-
+rag_workspace/Advanced_RAG
+rag_workspace/chroma_db
+rag_workspace/rag-from-scratch
+langchain_example
 # rag
 
 rag/grafana_data/grafana.db
