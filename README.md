@@ -2,6 +2,10 @@
 
 This repository is a collection of resources and information related to advancements in Natural Language Processing (NLP), with a focus on Large Language Models (LLMs) and parameter-efficient finetuning techniques.
 
+## Lecture and Notes
+- [Yann Dubois: Scalable Evaluation of Large Language Models - video](https://www.youtube.com/watch?v=ZaQYM-YF1rM&ab_channel=MayurNaik)
+- [Stanford CS229 I Machine Learning I Building Large Language Models - video](https://www.youtube.com/watch?v=9vM4p9NN0Ts&ab_channel=StanfordOnline)
+
 ## Parameter-Efficient Finetuning (PEFT)
 
 This section covers the latest developments in optimizing the finetuning process of large language models, aiming to reduce the number of parameters that need to be updated during the training process.
