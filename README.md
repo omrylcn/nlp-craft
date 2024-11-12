@@ -21,11 +21,17 @@ This section focuses on the integration of semantic search and retrieval capabil
 - [Hands-On-Large-Language-Models - Chapter 8 - Semantic Search and Retrieval-Augmented Generation](https://github.com/HandsOnLLM/Hands-On-Large-Language-Models/tree/main/chapter08)
 - [Building an LLM open source search engine in 100 lines using LangChain and Ray](https://www.anyscale.com/blog/llm-open-source-search-engine-langchain-ray)
 
+## Agent
+
+- [Awesome Agents](https://github.com/kyrolabs/awesome-agents)
+- [Awesome Large Multimodal Agents](https://github.com/jun0wanan/awesome-large-multimodal-agents?tab=readme-ov-file)
+- [Large Multimodal Agents: A Survey](https://arxiv.org/pdf/2402.15116)
+- [Agents : Build real-time multimodal AI applications](https://github.com/livekit/agents)
 
 ## Useful Links
  
 - [Building AI for Production](https://towardsai.net/book)
-
+- []
 
 
 ## Code Repositories
