@@ -89,6 +89,7 @@ flowchart TB
 
 ## Papers
 - [A Survey on Large Language Model based Autonomous Agents](https://arxiv.org/pdf/2308.11432)
+- [The Rise and Potential of Large Language Model Based Agents: A Survey](https://arxiv.org/pdf/2309.07864)
 
 ## Reading and Blogs
 - [LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)
