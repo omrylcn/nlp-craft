@@ -10,6 +10,9 @@
 
 - [Agent architectures - blog ](https://langchain-ai.github.io/langgraph/concepts/agentic_concepts/)
 
+- [What is LangGraph?](https://www.analyticsvidhya.com/blog/2024/07/langgraph-revolutionizing-ai-agent/)
+
+- [Build an LLM-Powered Data Agent for Data Analysis](https://developer.nvidia.com/blog/build-an-llm-powered-data-agent-for-data-analysis/)
 
 - [Reflection Agents](https://blog.langchain.dev/reflection-agents/)
 
