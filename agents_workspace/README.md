@@ -123,5 +123,8 @@ flowchart TB
 - [LangGraph: Multi-Agent Workflow](https://www.youtube.com/watch?v=hvAPnpSfSGo)
 - [Multiple AI Agents: Creating Multi-Agent Workflows Using LangGraph and LangChain](https://vijaykumarkartha.medium.com/multiple-ai-agents-creating-multi-agent-workflows-using-langgraph-and-langchain-0587406ec4e6)
 
+### Langrahp
+- [The Complete Guide to Building LangChain Agents](https://www.getzep.com/ai-agents/langchain-agents-langgraph)
+  
 ## Example Implementations
 - [Langraph Agent - Pinecone.io](https://github.com/pinecone-io/examples/tree/master/learn/generation/langchain/langgraph)
