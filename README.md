@@ -35,7 +35,6 @@ This section focuses on the integration of semantic search and retrieval capabil
 ## Useful Links
  
 - [Building AI for Production](https://towardsai.net/book)
-- []
 
 
 ## Code Repositories
