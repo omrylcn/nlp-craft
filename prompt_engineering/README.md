@@ -8,3 +8,9 @@
 - [LLM Temperature](https://www.hopsworks.ai/dictionary/llm-temperature#:~:text=The%20LLM%20temperature%20serves%20as,exploration%2C%20fostering%20diversity%20and%20innovation.)
 - [A Comprehensive Guide to LLM Temperature - blog](https://towardsdatascience.com/a-comprehensive-guide-to-llm-temperature/)
 - [Mastering LLM Parameters: A Deep Dive into Temperature, Top-K, and Top-P](https://plainenglish.io/blog/mastering-llm-parameters-a-deep-dive-into-temperature-top-k-and-top-p)
+
+
+### Article 
+- [2201 - Chain of Thought Prompting Elicits - v6](https://arxiv.org/abs/2201.11903)
+
+- [Understanding Reasoning LLMs - blog](https://sebastianraschka.com/blog/2025/understanding-reasoning-llms.html)
