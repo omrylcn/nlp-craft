@@ -45,13 +45,8 @@ This section focuses on the integration of semantic search and retrieval capabil
 ## Useful Links
 
 - [Building AI for Production](https://towardsai.net/book)
-<<<<<<< HEAD
-
-
-=======
 - [No Hype DeepSeek-R1 Reading List](https://www.oxen.ai/blog/no-hype-deepseek-r1-reading-list)
-  
->>>>>>> 436f74fb5b88e60d6616a2900e04534fc6ae52fe
+
 ## Code Repositories
 
 This section links to various code repositories and Jupyter Notebooks that provide practical implementations and examples of the techniques discussed in this README.
