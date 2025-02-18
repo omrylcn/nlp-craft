@@ -32,10 +32,14 @@ This section focuses on the integration of semantic search and retrieval capabil
 - [Large Multimodal Agents: A Survey](https://arxiv.org/pdf/2402.15116)
 - [Agents : Build real-time multimodal AI applications](https://github.com/livekit/agents)
 
+## LLMOps
+
+- [Why you need LLMOps](https://www.artefact.com/blog/why-you-need-llmops/#:~:text=Model%20adaptation%20to%20changing%20data,when%20significant%20changes%20are%20detected.)
+
+
 ## Useful Links
  
 - [Building AI for Production](https://towardsai.net/book)
-- []
 
 
 ## Code Repositories
