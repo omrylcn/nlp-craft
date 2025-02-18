@@ -3,6 +3,7 @@
 This repository is a collection of resources and information related to advancements in Natural Language Processing (NLP), with a focus on Large Language Models (LLMs) and parameter-efficient finetuning techniques.
 
 ## Lecture and Notes
+
 - [Yann Dubois: Scalable Evaluation of Large Language Models - video](https://www.youtube.com/watch?v=ZaQYM-YF1rM&ab_channel=MayurNaik)
 - [Stanford CS229 I Machine Learning I Building Large Language Models - video](https://www.youtube.com/watch?v=9vM4p9NN0Ts&ab_channel=StanfordOnline)
 
@@ -36,12 +37,21 @@ This section focuses on the integration of semantic search and retrieval capabil
 
 - [Why you need LLMOps](https://www.artefact.com/blog/why-you-need-llmops/#:~:text=Model%20adaptation%20to%20changing%20data,when%20significant%20changes%20are%20detected.)
 
+## Halucination
+
+- [2311 - A Survey on Hallucination in Large Language Models: Principles, Taxonomy, Challenges, and Open Questions - v2](https://arxiv.org/abs/2311.05232)
+- [2409 - LLMs Will Always Hallucinate, and We Need to Live With This - article](https://arxiv.org/html/2409.05746v1)
 
 ## Useful Links
- 
+
 - [Building AI for Production](https://towardsai.net/book)
+<<<<<<< HEAD
 
 
+=======
+- [No Hype DeepSeek-R1 Reading List](https://www.oxen.ai/blog/no-hype-deepseek-r1-reading-list)
+  
+>>>>>>> 436f74fb5b88e60d6616a2900e04534fc6ae52fe
 ## Code Repositories
 
 This section links to various code repositories and Jupyter Notebooks that provide practical implementations and examples of the techniques discussed in this README.
@@ -51,4 +61,3 @@ This section links to various code repositories and Jupyter Notebooks that provi
 - [Low-Rank Adaptation Blog Code](https://github.com/rasbt/low-rank-adaptation-blog/tree/main/code)
 - [Blog: Finetuning LLaMA Adapters Code](https://github.com/rasbt/blog-finetuning-llama-adapters/tree/main/three-conventional-methods)
 - [LLMs from Scratch Appendix E Notebook](https://github.com/rasbt/LLMs-from-scratch/blob/main/appendix-E/01_main-chapter-code/appendix-E.ipynb)
-
