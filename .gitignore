@@ -22,6 +22,19 @@ rag/grafana_data/grafana-apiserver
 rag/grafana_data/grafana-apiserver/resource
 rag/grafana_data/csv
 
+# agent
+agents_workspace
+
+
+# exammples
+examples
+
+
+# llmops
+llmops
+
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
