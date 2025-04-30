@@ -15,7 +15,7 @@
 - https://huggingface.co/datasets/emrecan/all-nli-tr
 - https://huggingface.co/datasets/emrecan/stsb-mt-turkish
 - https://huggingface.co/datasets/Turkish-NLI/legal_nli_TR_V1
-
+- https://huggingface.co/datasets/msbayindir/legal_stsb_dataset
 ## Models
 https://huggingface.co/x1saint/gte-multi-triplet-v2
 https://huggingface.co/emrecan/bert-base-turkish-cased-mean-nli-stsb-tr
