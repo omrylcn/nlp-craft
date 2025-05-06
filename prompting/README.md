@@ -48,6 +48,3 @@
 - [2201 - Chain of Thought Prompting Elicits - v6](https://arxiv.org/abs/2201.11903)
 - [Understanding Reasoning LLMs](https://sebastianraschka.com/blog/2025/understanding-reasoning-llms.html)
 
----
-
-Bu düzenleme, notlarınızı daha yapılandırılmış ve kolayca takip edilebilir hale getirir. Her bölüm ve alt başlık, konuları daha net bir şekilde ayırır ve referanslar kolayca erişilebilir durumdadır.
