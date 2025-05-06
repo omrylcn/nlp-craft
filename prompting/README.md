@@ -1,7 +1,3 @@
-Tabii ki, notlarınızı daha düzenli ve anlaşılır hale getireyim. İşte düzenlenmiş versiyon:
-
----
-
 # Prompt Engineering Notes
 
 ## Elements of a Prompt
