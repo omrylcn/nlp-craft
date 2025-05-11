@@ -66,7 +66,7 @@ AI ajanları, çeşitli görevleri yerine getirmek için farklı desenler kullan
 
 Yansıma deseni, ajanların kendi performanslarını analiz ederek iyileştirmelerini sağlayan bir yaklaşımdır. Ajanlar, çıktılarını ve karar verme süreçlerini iyileştirmek için öz-değerlendirme yaparlar.
 
-![Yansıma Deseni](/api/placeholder/640/320)
+![Yansıma Deseni](images/image.png)
 
 **Yansıma Deseni Nasıl Çalışır**:
 
@@ -82,7 +82,7 @@ Bu desen, özellikle karmaşık ve yüksek kalite gerektiren görevlerde (progra
 
 Araç kullanımı deseni, ajanların yeteneklerini genişletmek için harici kaynakları kullanmasını sağlar. Bu desende, ajan verilen görev doğrultusunda hangi aracı kullanacağına karar verir ve o aracı çağırarak sonuçları entegre eder.
 
-![Araç Kullanımı Deseni](/api/placeholder/640/320)
+![Araç Kullanımı Deseni](images/image-2.png)
 
 **Araç Kullanımı Deseni Nasıl Çalışır**:
 
@@ -98,7 +98,7 @@ Bu desen, LLM'lerin hesaplama yapma, internet araştırması yapma, API'lerle et
 
 Planlama deseni, karmaşık görevleri daha küçük, yönetilebilir alt görevlere ayırarak çözmeyi hedefler. Bu desende, bir kontrolör LLM görevi parçalara ayırır ve her parça için en uygun modeli seçer.
 
-![Planlama Deseni](/api/placeholder/640/320)
+![Planlama Deseni](images/image-1.png)
 
 **Planlama Deseni Nasıl Çalışır**:
 
@@ -113,7 +113,7 @@ Bu desen, "divide and conquer" (böl ve yönet) stratejisini uygulayarak karmaş
 
 Çoklu ajan işbirliği deseni, farklı rollere sahip uzmanlaşmış ajanların birlikte çalışarak karmaşık problemleri çözmesini sağlar. Her ajan kendi uzmanlık alanında görev alarak, tek bir ajanın yapamayacağı karmaşık işleri tamamlayabilirler.
 
-![Çoklu Ajan İşbirliği Deseni](/api/placeholder/640/320)
+![Çoklu Ajan İşbirliği Deseni](images/image-3.png)
 
 **Çoklu Ajan İşbirliği Deseni Nasıl Çalışır**:
 
@@ -213,7 +213,7 @@ Fayda tabanlı ajanlar, fayda fonksiyonlarına göre performanslarını optimize
 
 AI ajanlarının temel yapı taşları, onların çevrelerini algılamalarını, bilgi işlemelerini ve akıllı eylemler gerçekleştirmelerini sağlayan bileşenlerdir. Bu bölümde, bir AI ajanının temel bileşenlerini detaylı olarak inceleyeceğiz.
 
-![Ajan Yapısı](/api/placeholder/640/320)
+![Ajan Yapısı](images/image-15.png)
 
 ### 4.1. Algılama
 
@@ -297,7 +297,7 @@ Bilgi tabanının genişliği ve erişilebilirliği, ajanın ne kadar bilgili ve
 
 Orkestrasyon katmanı, herhangi bir bilişsel mimarinin merkezinde yer alır. Bu katman, ajanın belleğini, mevcut durumunu, akıl yürütme süreçlerini ve genel planlamasını yönetmekten sorumludur.
 
-![Orkestrasyon Katmanı](/api/placeholder/640/320)
+![Orkestrasyon Katmanı](images/image-10.png)
 
 ### 5.1. Bellek Yönetimi
 
@@ -343,7 +343,7 @@ Ajanların yeteneklerini genişletmek için kullanabilecekleri üç ana araç t�
 
 Uzantılar, bir ajanın farklı API'lerle kolayca etkileşime girmesini sağlayan önceden oluşturulmuş bağlayıcılar olarak düşünülebilir.
 
-![Uzantılar](/api/placeholder/640/320)
+![Uzantılar](images/image-11.png)
 
 **Uzantıların Özellikleri**:
 - API'lere standartlaştırılmış erişim sağlar
@@ -357,7 +357,7 @@ Uzantılar, bir ajanın farklı API'lerle kolayca etkileşime girmesini sağlaya
 
 Fonksiyonlar, belirli görevleri yerine getiren ve gerektiğinde yeniden kullanılabilen özerk kod modülleridir. Yazılım geliştiricilerin fonksiyonları kullanma şekline benzer şekilde çalışırlar.
 
-![Fonksiyonlar](/api/placeholder/640/320)
+![Fonksiyonlar](images/image-13.png)
 
 **Fonksiyonların Özellikleri**:
 - Belirli görevleri gerçekleştiren izole kod parçalarıdır
@@ -371,7 +371,7 @@ Fonksiyonlar, belirli görevleri yerine getiren ve gerektiğinde yeniden kullan�
 
 Veri depoları, bir ajanın erişebileceği harici, güncellenebilir bilgi kaynaklarıdır. Bu depolar, ajanın belleğini genişletir ve daha fazla bilgiye erişmesini sağlar.
 
-![Veri Depoları](/api/placeholder/640/320)
+![Veri Depoları](images/image-13.png)
 
 **Veri Depolarının Özellikleri**:
 - Harici, güncellenebilir bilgi kaynakları
