@@ -3,7 +3,7 @@
 ## 4 AI Agent Patterns You Should Know
 **reflection pattern** 
 This pattern involves agents analyzing and improving their own performance. Agents use self-evaluation to refine their outputs and decision-making processes.
-![alt text](image.png)
+![alt text](images/image.png)
 
 - self-refine, self-evalute
 
@@ -41,7 +41,7 @@ Sonuçların yürütülmesi ve entegrasyonu***
 - For each subtask, a specific model is chosen to perform the task.
 - Specific export models execute the subtasks, and the result is given to the controller LLM, which generates a response.
 
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 
 **mutli-agent collaboration pattern**
 
@@ -50,7 +50,7 @@ Task Decomposition: Complex tasks are broken down into smaller, manageable subta
 Communication and Coordination: Agents interact with each other, exchanging information and coordinating their actions to achieve common goals.
 Distributed Problem Solving: The system uses the collective capabilities of multiple agents to address problems too complex for a single agent.
 
-![alt text](image-3.png)
+![alt text](images/image-3.png)
 
 
 # Part - 2
@@ -81,17 +81,17 @@ These four perspectives will run in a loop and form a cycle until the given task
 - Agentic workflows represent sequences of well-defined jobs to be done that are executed dynamically by AI agents and orchestrated as part of a larger end-to-end business process automation.
 - Agentic workflows, or agentic processes, put AI agents to work for task management and automation, bringing flexibility, responsiveness, and a degree of independence to business processes.
 
-![alt text](image-5.png)
+![alt text](images/image-5.png)
 
-![alt text](image-7.png)
+![alt text](images/image-7.png)
 
-![alt text](image-8.png)
+![alt text](images/image-8.png)
 
-![alt text](image-9.png)
+![alt text](images/image-9.png)
 
 
 # Part - 4
-![alt text](image-10.png)
+![alt text](images/image-10.png)
 
 breakdown of how these architectures function:
 
@@ -104,16 +104,16 @@ breakdown of how these architectures function:
 
 - Think of extensions as pre-built connectors that allow an agent to easily interact with different APIs.
 
-![alt text](image-11.png)
+![alt text](images/image-11.png)
 
 - Functions are self-contained modules of code that accomplish specific tasks and can be reused as needed, similar to how software developers use functions. 
 - The key difference between functions and extensions is that functions are executed on the client-side, whereas extensions are executed on the agent-side.
-![alt text](image-12.png)
+![alt text](images/image-12.png)
 
 - Think of a data store as an external, updatable source of information that an agent can tap into.
 
 
-![alt text](image-13.png)
+![alt text](images/image-13.png)
 
 Targeted learning approaches focus on training or guiding AI Agents to make better decisions about which tools or resources to use in various situations. There are several approaches to achieve this:
 
@@ -182,11 +182,11 @@ At its core, an AI agent is made up of the following components:
 - Knowledge Base
 - Learning
 - Communication Interface
-![alt text](image-14.png)
+![alt text](images/image-14.png)
 
 
 how ai agent work 
-![alt text](image-15.png)
+![alt text](images/image-15.png)
 
 There are 4 major works of the orchestration layer:
 
@@ -195,9 +195,9 @@ State: storing the current state of the whole process.
 Reasoning: guiding the agent’s reasoning.
 Planning: what are the steps and what will be the next step?
 
-![alt text](image-16.png)
+![alt text](images/image-16.png)
 
-![alt text](image-17.png)
+![alt text](images/image-17.png)
 
 # Part - 6
 
@@ -208,8 +208,8 @@ Planning: what are the steps and what will be the next step?
 - Action: It decides what to do based on its understanding.
 - Learning: It improves and adapts over time, learning from feedback and experience.
  
-![alt text](image-18.png)
+![alt text](images/image-18.png)
 
 , AI Agents are typically built to do specific tasks. They’re designed to help you with something — like answering questions, organizing your calendar, or even managing your email inbox. AI Agents are great at automating simple, repetitive tasks but don’t have the autonomy or decision-making abilities that Agentic AI does.
 
-![alt text](image-19.png)
+![alt text](images/image-19.png)
