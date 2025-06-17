@@ -17,11 +17,10 @@
 - https://huggingface.co/datasets/msbayindir/legal_stsb_dataset
   
 ## Models
-https://huggingface.co/x1saint/gte-multi-triplet-v2
-https://huggingface.co/emrecan/bert-base-turkish-cased-mean-nli-stsb-tr
-https://huggingface.co/boun-tabi-LMG/turna_nli_nli_tr
-https://huggingface.co/boun-tabi-LMG/turna_semantic_similarity_stsb_tr
+- https://huggingface.co/x1saint/gte-multi-triplet-v2
+- https://huggingface.co/emrecan/bert-base-turkish-cased-mean-nli-stsb-tr
+- https://huggingface.co/boun-tabi-LMG/turna_nli_nli_tr
+- https://huggingface.co/boun-tabi-LMG/turna_semantic_similarity_stsb_tr
 
 ## Rank 
-
 - https://github.com/castorini/rank_llm
