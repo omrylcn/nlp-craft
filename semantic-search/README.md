@@ -7,7 +7,6 @@
 ## Repo
 - https://github.com/boun-tabi-LMG/turkish-lm-tuner?tab=readme-ov-file
 
-
 ## Dataset 
 - https://huggingface.co/datasets/boun-tabi/nli_tr
 - https://hackmd.io/@data-tdd/r1zSlq5r5
@@ -16,8 +15,13 @@
 - https://huggingface.co/datasets/emrecan/stsb-mt-turkish
 - https://huggingface.co/datasets/Turkish-NLI/legal_nli_TR_V1
 - https://huggingface.co/datasets/msbayindir/legal_stsb_dataset
+  
 ## Models
 https://huggingface.co/x1saint/gte-multi-triplet-v2
 https://huggingface.co/emrecan/bert-base-turkish-cased-mean-nli-stsb-tr
 https://huggingface.co/boun-tabi-LMG/turna_nli_nli_tr
 https://huggingface.co/boun-tabi-LMG/turna_semantic_similarity_stsb_tr
+
+## Rank 
+
+- https://github.com/castorini/rank_llm
