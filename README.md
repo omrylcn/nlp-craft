@@ -33,6 +33,13 @@ This section focuses on the integration of semantic search and retrieval capabil
 - [Large Multimodal Agents: A Survey](https://arxiv.org/pdf/2402.15116)
 - [Agents : Build real-time multimodal AI applications](https://github.com/livekit/agents)
 
+## RL for LLM
+
+- [The State of Reinforcement Learning for LLM Reasoning](https://sebastianraschka.com/blog/2025/the-state-of-reinforcement-learning-for-llm-reasoning.html)
+- [Understanding Reasoning LLMs](https://sebastianraschka.com/blog/2025/understanding-reasoning-llms.html)
+- [Demystifying Reasoning Models ** also related with rl](https://cameronrwolfe.substack.com/p/demystifying-reasoning-models?sort=top)
+
+  
 ## LLMOps
 
 - [Why you need LLMOps](https://www.artefact.com/blog/why-you-need-llmops/#:~:text=Model%20adaptation%20to%20changing%20data,when%20significant%20changes%20are%20detected.)
