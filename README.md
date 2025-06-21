@@ -38,7 +38,8 @@ This section focuses on the integration of semantic search and retrieval capabil
 - [The State of Reinforcement Learning for LLM Reasoning](https://sebastianraschka.com/blog/2025/the-state-of-reinforcement-learning-for-llm-reasoning.html)
 - [Understanding Reasoning LLMs](https://sebastianraschka.com/blog/2025/understanding-reasoning-llms.html)
 - [Demystifying Reasoning Models ** also related with rl](https://cameronrwolfe.substack.com/p/demystifying-reasoning-models?sort=top)
-
+- [verl: Volcano Engine Reinforcement Learning for LLMs](https://github.com/volcengine/verl)
+- [Search-R1: An Efficient, Scalable RL Training Framework for Reasoning & Search Engine Calling interleaved LLM based on veRL](https://github.com/PeterGriffinJin/Search-R1?tab=readme-ov-file)
   
 ## LLMOps
 
