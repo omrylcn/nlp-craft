@@ -1,0 +1,148 @@
+<style>
+    /* Genel Konteyner Stilleri */
+    .figure-container-gemini {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+        max-width: 900px;
+        margin: 20px auto;
+    }
+
+    /* Her bir satırın stili */
+    .diagram-row-gemini {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 25px;
+    }
+    .diagram-row-gemini:last-of-type {
+        margin-bottom: 0;
+    }
+
+    /* Tüm kutular için temel stil */
+    .box-gemini {
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        border: 1px solid rgba(0,0,0,0.1);
+        font-size: 14px;
+        line-height: 1.4;
+    }
+    
+    /* Prompt kutuları için sarmalayıcı */
+    .prompt-wrapper-gemini {
+        position: relative;
+        flex-basis: 35%;
+    }
+
+    /* Gri Prompt kutusu */
+    .prompt-gemini {
+        background-color: #f0f0f0;
+        color: #333;
+    }
+
+    /* Altta eklenen "Dear" token kutusu */
+    .appended-token-gemini {
+        background-color: #e6dff7;
+        color: #333;
+        position: absolute;
+        left: 0;
+        bottom: -35px;
+        padding: 8px 12px;
+        font-size: 14px;
+        border: 1px solid #c5b6e3;
+    }
+
+    /* Okların stili */
+    .arrow-gemini {
+        font-size: 28px;
+        color: #888;
+        margin: 0 15px;
+    }
+
+    /* Transformer LLM kutusu */
+    .transformer-gemini {
+        background-color: #fce4ec;
+        flex-basis: 40%;
+        position: relative;
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+    
+    /* Transformer kutusundaki ikonlar ve metin */
+    .icons-gemini {
+        position: absolute;
+        top: 8px;
+        left: 15px;
+        font-size: 12px;
+        color: #c2185b;
+        font-weight: bold;
+    }
+    .model-text-gemini {
+        font-weight: bold;
+        font-size: 16px;
+        color: #ad1457;
+    }
+    .doc-icon-gemini {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        font-size: 20px;
+    }
+
+    /* Çıktı (Output) kutusu */
+    .output-gemini {
+        background-color: #e6dff7;
+        color: #333;
+        flex-basis: 10%;
+        border: 1px solid #c5b6e3;
+    }
+
+    /* Alt yazı stili */
+    .caption-gemini {
+        font-size: 13px;
+        color: #555;
+        /* DEĞİŞİKLİK BURADA: Üst boşluk artırıldı */
+        margin-top: 50px;
+        text-align: left;
+        line-height: 1.5;
+    }
+</style>
+
+<div class="figure-container-gemini">
+    <div class="diagram-row-gemini">
+        <div class="prompt-wrapper-gemini">
+            <div class="box-gemini prompt-gemini">Write an email apologizing to Sarah for the tragic gardening mishap. Explain how it happened.</div>
+        </div>
+        <div class="arrow-gemini">→</div>
+        <div class="box-gemini transformer-gemini">
+            <span class="icons-gemini">🔥 TRANSFORMER</span>
+            <div class="model-text-gemini">Transformer LLM</div>
+            <span class="doc-icon-gemini">📄</span>
+        </div>
+        <div class="arrow-gemini">→</div>
+        <div class="box-gemini output-gemini">Dear</div>
+    </div>
+    
+    <div class="diagram-row-gemini">
+        <div class="prompt-wrapper-gemini">
+            <div class="box-gemini prompt-gemini">Write an email apologizing to Sarah for the tragic gardening mishap. Explain how it happened.</div>
+            <div class="box-gemini appended-token-gemini">Dear</div>
+        </div>
+        <div class="arrow-gemini">→</div>
+        <div class="box-gemini transformer-gemini">
+            <span class="icons-gemini">🔥 TRANSFORMER</span>
+            <div class="model-text-gemini">Transformer LLM</div>
+            <span class="doc-icon-gemini">📄</span>
+        </div>
+        <div class="arrow-gemini">→</div>
+        <div class="box-gemini output-gemini">Sarah</div>
+    </div>
+    
+    <p class="caption-gemini">
+        <strong>Figure 3-3.</strong> An output token is appended to the prompt, then this new text is presented to the model again for another forward pass to generate the next token.
+    </p>
+</div>

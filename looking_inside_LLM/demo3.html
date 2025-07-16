@@ -1,0 +1,176 @@
+<style>
+    /* Ana Konteyner */
+    .figure-container-gemini-2 {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+        max-width: 650px; /* Genişlik ayarlandı */
+        margin: 20px auto;
+        position: relative; /* İçerideki mutlak konumlandırma için gerekli */
+        padding-bottom: 80px; /* Altyazı için yer açar */
+    }
+
+    /* Sol Taraftaki Dikey Akış */
+    .vertical-flow-gemini {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 55%; /* Sol tarafın genişliği */
+    }
+
+    /* Genel Kutu Stilleri */
+    .box-gemini-style {
+        border-radius: 8px;
+        padding: 12px 15px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        border: 1px solid rgba(0,0,0,0.1);
+        font-size: 14px;
+        line-height: 1.4;
+        margin: 10px 0;
+    }
+
+    /* Sol Taraftaki Kutular */
+    .prompt-box-gemini-2 {
+        background-color: #f0f0f0;
+        color: #333;
+        width: 90%;
+    }
+
+    .transformer-box-gemini-2 {
+        background-color: #fce4ec;
+        color: #ad1457;
+        font-weight: bold;
+        position: relative;
+        padding-left: 30px; /* İkon için yer */
+        width: fit-content;
+    }
+
+    .transformer-box-gemini-2 .icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .output-box-gemini-2 {
+        background-color: #e6dff7;
+        color: #333;
+        border: 1px solid #c5b6e3;
+        padding: 10px 25px;
+        width: fit-content;
+    }
+    
+    .arrow-down-gemini-2 {
+        font-size: 24px;
+        color: #888;
+        margin: 5px 0;
+    }
+
+    /* Sağ Taraftaki Büyütülmüş Bölüm */
+    .enlarged-section-gemini {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 35%; /* Sağ tarafın genişliği */
+        background-color: rgba(252, 228, 236, 0.2);
+        border: 1px solid #fce4ec;
+        border-radius: 8px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tokenizer-box-gemini, .stack-box-gemini, .lm-head-box-gemini {
+        width: 90%;
+        font-size: 13px;
+    }
+    
+    .tokenizer-box-gemini { background-color: #f3e5f5; color: #7b1fa2; border-color: #ce93d8; }
+    .lm-head-box-gemini { background-color: #fff3e0; color: #f57c00; border-color: #ffcc80; }
+
+    .stack-box-gemini {
+        background-color: #e3f2fd;
+        color: #1976d2;
+        border-color: #90caf9;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    .inner-blocks-gemini {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        margin: 8px 0;
+    }
+
+    .transformer-block-gemini {
+        background-color: #bbdefb;
+        color: #1565c0;
+        border: 1px solid #90caf9;
+        border-radius: 4px;
+        padding: 8px 12px;
+        margin-bottom: 6px;
+        font-size: 12px;
+    }
+    .transformer-block-gemini:last-child { margin-bottom: 0; }
+    
+    /* Bağlantı Çizgisi */
+    .dashed-line-gemini {
+        border-left: 2px dashed #e57373; /* Kırmızımsı kesik çizgi */
+        position: absolute;
+        height: 100px; /* Çizgi yüksekliği */
+        top: 120px; /* Dikey konum */
+        left: 58%; /* Yatay konum */
+    }
+
+    /* Altyazı */
+    .caption-gemini-2 {
+        font-size: 13px;
+        color: #555;
+        text-align: left;
+        line-height: 1.5;
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+    }
+
+</style>
+
+<div class="figure-container-gemini-2">
+    
+    <div class="vertical-flow-gemini">
+        <div class="box-gemini-style prompt-box-gemini-2">Write an email apologizing to Sarah for the tragic gardening mishap. Explain how it happened.</div>
+        <div class="arrow-down-gemini-2">↓</div>
+        <div class="box-gemini-style transformer-box-gemini-2">
+            <span class="icon">🔥</span> Transformer LLM
+        </div>
+        <div class="arrow-down-gemini-2">↓</div>
+        <div class="box-gemini-style output-box-gemini-2">Dear</div>
+    </div>
+
+    <div class="dashed-line-gemini"></div>
+
+    <div class="enlarged-section-gemini">
+        <div class="box-gemini-style tokenizer-box-gemini">Tokenizer</div>
+        <div class="box-gemini-style stack-box-gemini">
+            Stack of
+            <div class="inner-blocks-gemini">
+                <div class="transformer-block-gemini">Transformer block 1</div>
+                <div class="transformer-block-gemini">Transformer block 2</div>
+                <div class="transformer-block-gemini">...</div>
+                <div class="transformer-block-gemini">Transformer block N</div>
+            </div>
+            Transformer blocks
+        </div>
+        <div class="box-gemini-style lm-head-box-gemini">LM head</div>
+    </div>
+
+    <p class="caption-gemini-2">
+        <strong>Figure 3-4.</strong> A Transformer LLM is made up of a tokenizer, a stack of Transformer blocks, and a language modeling head.
+    </p>
+</div>
