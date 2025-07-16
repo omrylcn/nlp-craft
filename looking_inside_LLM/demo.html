@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Metin Üretme Akışı (Tokenizer Detaylı)</title>
+    <style>
+        /* ÖNEMLİ: Eğer bu kodu doğrudan blog platformunuza yapıştırıyorsanız,
+           blogunuzun ana CSS'ini etkilememesi için 'body' stilini kaldırın
+           veya blogunuzun genel stillerine uydurun.
+           Aşağıdaki stiller sadece '.llm-process-container' ve içindekiler için geçerli olmalıdır. */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column; /* İçeriği dikey sırala */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .blog-section-container {
+            max-width: 900px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px; /* Alttaki örnekle arasında boşluk */
+        }
+
+        .blog-section-container h3 {
+            color: #2c3e50;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #007bff;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .blog-section-container p {
+            font-size: 1.05em;
+            line-height: 1.6;
+            color: #34495e;
+            margin-bottom: 15px;
+        }
+
+        /* LLM Akış Diyagramı Stilleri */
+        .llm-process-container {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            gap: 30px; /* Adımlar arası boşluk */
+            align-items: center;
+            padding: 30px;
+            border: 1px solid #e0e0e0; /* Hafif bir çerçeve */
+            border-radius: 12px;
+            background-color: #fcfcfc; /* Daha açık arka plan */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Daha yumuşak gölge */
+            max-width: 800px; /* Kapsayıcıyı biraz küçült */
+            width: 100%;
+            margin: 30px auto; /* Yukarı ve aşağı boşluk */
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 20px; /* Kutu ve ok arası boşluk */
+            width: 100%;
+            justify-content: center;
+            opacity: 0; /* Başlangıçta gizli */
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .input-box, .model-box, .output-token-box {
+            border: 1px solid #c0c0c0; /* Kutuların ana rengi */
+            padding: 15px 20px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 160px; /* Kutuların minimum genişliği */
+            max-width: 250px;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            position: relative;
+            flex-shrink: 0;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .input-box { background-color: #e6f3ff; border-color: #a0c4ff; } /* Açık mavi */
+        .model-box { background-color: #ffe6f0; border-color: #ff99bb; } /* Açık pembe */
+        .output-token-box { background-color: #f0fff0; border-color: #a0e0a0; } /* Açık yeşil */
+
+        .box-label {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            padding: 0 8px;
+            font-size: 0.85em;
+            color: #555;
+            white-space: nowrap;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .llm-icon {
+            font-size: 2.5em;
+            display: block;
+            margin-bottom: 5px;
+            color: #cc6699; /* Model kutusu için vurgulu renk */
+        }
+
+        .arrow {
+            font-size: 2em;
+            color: #555;
+            animation: bounceArrow 1.5s infinite;
+        }
+
+        .arrow.active {
+            color: #007bff;
+        }
+
+        .input-box p span {
+            font-weight: bold;
+            color: #0056b3;
+            background-color: #d1e7ff;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .explanation-text {
+            font-size: 0.95em;
+            color: #444;
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            padding: 0 15px;
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .explanation-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .controls button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .controls button:hover {
+            background-color: #0056b3;
+        }
+
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+
+        .output-token-box.highlight {
+            animation: highlightToken 1s forwards;
+        }
+
+        @keyframes highlightToken {
+            0% { transform: scale(1); box-shadow: 0 0 0 rgba(0, 0, 0, 0); }
+            50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(0, 123, 255, 0.6); }
+            100% { transform: scale(1); box-shadow: 0 0 0 rgba(0, 0, 0, 0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="blog-section-container">
+        <h3>Tokenizer: Dilin Temel Yapı Taşlarına Ayrılması</h3>
+
+        <p>Büyük Dil Modelleri (LLM'ler), metni doğrudan karakter karakter değil, belirli "token"lar (belirteçler) halinde işler. Tokenizer'ın temel görevi, ham metni bu token'lara ayırmak ve her bir token'ı modelin anlayabileceği sayısal bir kimliğe (ID) dönüştürmektir. Metin üretimi sürecinde de bu token'lar kritik bir rol oynar.</p>
+
+        <p>Bir LLM'in metin üretirken nasıl çalıştığını görselleştirmek için, token'ların adım adım nasıl tahmin edildiğini ve prompt'a (girdi metnine) nasıl eklendiğini anlamak önemlidir. Model, her bir adımda bir sonraki token'ı tahmin eder ve bu tahmin edilen token, bir sonraki tahmin için modele verilen girdi metnine eklenir. Bu döngü, istenen uzunlukta bir metin veya bir durdurma koşulu (örneğin bir cümle sonu işareti) sağlanana kadar devam eder. Bu ardışık token üretme süreci, LLM'lerin uzun ve tutarlı metinler oluşturmasını sağlar.</p>
+
+        <p>Aşağıdaki etkileşimli görselleştirmede bu adım adım süreci görebilirsiniz:</p>
+
+        <div class="llm-process-container">
+            <h4 style="color: #4a4a4a; text-align: center; margin-bottom: 25px;">Bir Transformer LLM'in Metin Üretme Akışı (Adım Adım Token Tahmini)</h4>
+
+            <div class="step" id="step-1">
+                <div class="input-box">
+                    <span class="box-label">Başlangıç Prompt</span>
+                    <p>"Write an email apologizing to Sarah for the tragic gardening mishap. Explain how it happened."</p>
+                </div>
+                <div class="arrow" id="arrow-1">➡️</div>
+                <div class="model-box">
+                    <span class="box-label">Transformer LLM</span>
+                    <span class="llm-icon">🧠</span>
+                </div>
+                <div class="arrow" id="arrow-2">➡️</div>
+                <div class="output-token-box" id="output-1">
+                    <span class="box-label">Tahmin Edilen Token</span>
+                    <p>"Dear"</p>
+                </div>
+            </div>
+            <div class="explanation-text" id="explanation-1">
+                <p>1. Adım: Model, başlangıç prompt'unu işler ve bağlama en uygun ilk kelimeyi ("Dear") tahmin eder.</p>
+            </div>
+
+            <div class="step" id="step-2">
+                <div class="input-box">
+                    <span class="box-label">Genişletilmiş Prompt</span>
+                    <p>"Write an email apologizing to Sarah for the tragic gardening mishap. Explain how it happened. <span>Dear</span>"</p>
+                </div>
+                <div class="arrow" id="arrow-3">➡️</div>
+                <div class="model-box">
+                    <span class="box-label">Transformer LLM</span>
+                    <span class="llm-icon">🧠</span>
+                </div>
+                <div class="arrow" id="arrow-4">➡️</div>
+                <div class="output-token-box" id="output-2">
+                    <span class="box-label">Tahmin Edilen Token</span>
+                    <p>"Sarah,"</p>
+                </div>
+            </div>
+            <div class="explanation-text" id="explanation-2">
+                <p>2. Adım: Önceki adımda üretilen "Dear" kelimesi, mevcut prompt'a eklenir. Model, bu yeni ve genişletilmiş prompt'tan sonraki kelimeyi ("Sarah,") tahmin eder.</p>
+            </div>
+
+            <div class="step" id="step-3">
+                <div class="input-box">
+                    <span class="box-label">Genişletilmiş Prompt</span>
+                    <p>"Write an email apologizing to Sarah for the tragic gardening mishap. Explain how it happened. <span>Dear Sarah,</span>"</p>
+                </div>
+                <div class="arrow" id="arrow-5">➡️</div>
+                <div class="model-box">
+                    <span class="box-label">Transformer LLM</span>
+                    <span class="llm-icon">🧠</span>
+                </div>
+                <div class="arrow" id="arrow-6">➡️</div>
+                <div class="output-token-box" id="output-3">
+                    <span class="box-label">Tahmin Edilen Token</span>
+                    <p>"I'm"</p>
+                </div>
+            </div>
+            <div class="explanation-text" id="explanation-3">
+                <p>3. Adım: "Dear Sarah," ifadesi prompt'a eklenir. Model şimdi "I'm" kelimesini tahmin eder ve bu döngü metin oluşana kadar devam eder.</p>
+            </div>
+            
+            <div class="controls">
+                <button id="nextStepBtn">Sonraki Adım</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const steps = document.querySelectorAll('.step');
+        const explanations = document.querySelectorAll('.explanation-text');
+        const nextStepBtn = document.getElementById('nextStepBtn');
+        let currentStepIndex = 0;
+
+        function showStep(index) {
+            // Önceki aktiflikleri kaldır
+            steps.forEach(s => s.classList.remove('visible'));
+            explanations.forEach(e => e.classList.remove('visible'));
+            document.querySelectorAll('.arrow').forEach(a => a.classList.remove('active')); // Tüm okların animasyonunu durdur
+
+            // Mevcut adımı göster
+            if (index < steps.length) {
+                steps[index].classList.add('visible');
+                explanations[index].classList.add('visible');
+                
+                // Okları canlandır
+                const arrowsInStep = steps[index].querySelectorAll('.arrow');
+                arrowsInStep.forEach(arrow => {
+                    arrow.classList.add('active');
+                });
+                
+                // Çıktı tokenını vurgula
+                const outputBox = steps[index].querySelector('.output-token-box');
+                if (outputBox) {
+                    outputBox.classList.add('highlight');
+                    // Vurguyu animasyon süresi sonunda kaldır
+                    setTimeout(() => outputBox.classList.remove('highlight'), 1000); 
+                }
+            } else {
+                nextStepBtn.textContent = "Başa Dön"; // Tüm adımlar bittiğinde butonu değiştir
+            }
+        }
+
+        nextStepBtn.addEventListener('click', () => {
+            if (currentStepIndex >= steps.length) {
+                currentStepIndex = 0; // Başa dön
+                nextStepBtn.textContent = "Sonraki Adım";
+            }
+            showStep(currentStepIndex);
+            currentStepIndex++;
+        });
+
+        // Sayfa yüklendiğinde ilk adımı göster
+        window.onload = () => {
+            showStep(0);
+            currentStepIndex = 1; // Bir sonraki tıklama için indeksi hazırla
+        };
+    </script>
+
+</body>
+</html>
