@@ -98,8 +98,7 @@ flowchart TB
 ### General Agent Development
 - [LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)
 - [LLM Agents](https://www.promptingguide.ai/research/llm-agents)
-- [AI Agent with LangGraph - Tutorial](https://www.deeplearning.ai/short-courses/ai-agents-in-langgraph/)
-- [AI Agents: A Deep Dive into LangChain's Agent Framework](https://www.analyticsvidhya.com/blog/2024/07/langchains-agent-framework/)
+
 - [AI Agent Workflows: A Complete Guide on Whether to Build With LangGraph or LangChain](https://towardsdatascience.com/ai-agent-workflows-a-complete-guide-on-whether-to-build-with-langgraph-or-langchain-117025509fa0)
 - [LangGraph and Research Agents](https://www.pinecone.io/learn/langgraph-research-agent/#Graphs-for-Agents)
 - [Agent Architectures - Blog](https://langchain-ai.github.io/langgraph/concepts/agentic_concepts/)
@@ -107,10 +106,16 @@ flowchart TB
 - [Build an LLM-Powered Data Agent for Data Analysis](https://developer.nvidia.com/blog/build-an-llm-powered-data-agent-for-data-analysis/)
 - [How to Build a General-Purpose LLM Agent](https://towardsdatascience.com/build-a-general-purpose-ai-agent-c40be49e7400)
 
+### React Agents
+
+-[React Agent with Langraph](https://www.philschmid.de/langgraph-gemini-2-5-react-agent)
+
 ### Planning and Reflection
 - [Planning for Agents](https://blog.langchain.dev/planning-for-agents/)
 - [Literature Review on Task Planning with LLM Agents](https://isamu-website.medium.com/literature-review-on-task-planning-with-llm-agents-a5c60ce4f6de)
 - [Reflection Agents](https://blog.langchain.dev/reflection-agents/)
+
+
 
 ### Flow Engineering
 - [Flow Engineering is All You Need](https://medium.com/@rohanbalkondekar/flow-engineering-is-all-you-need-9046a5e7351d)
