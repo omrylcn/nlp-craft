@@ -1085,7 +1085,7 @@ result = content_crew.kickoff()
 
 **Kurulum:**
 ```bash
-pip install pyautogen
+pip install ag2
 ```
 
 **Temel Bağımlılıklar:**
