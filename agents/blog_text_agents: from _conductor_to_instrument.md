@@ -8,7 +8,8 @@ Here's what I found: LangGraph's current `create_react_agent` function isn't act
 
 ## The Great Disconnect: Blog Tutorials vs. Reality
 
-### What Every Blog Tutorial Tells You:
+### What Every Blog Tutorial Tells You
+
 ```python
 # The "classic" ReAct pattern everyone writes about
 while not done:
@@ -18,7 +19,8 @@ while not done:
     # Rinse and repeat with manual orchestration
 ```
 
-### What LangGraph Actually Does:
+### What LangGraph Actually Does
+
 ```python
 # The reality I discovered
 from langgraph.prebuilt import create_react_agent
@@ -49,6 +51,7 @@ My weekend went something like this:
 This weekend, I witnessed firsthand what the industry has been quietly experiencing over the past 6 months.
 
 ### **The Old World (Conductor):**
+
 ```python
 # Framework conducting the orchestra
 class ReactOrchestrator:
@@ -63,6 +66,7 @@ class ReactOrchestrator:
 The framework was the **conductor**, telling the LLM what to think about and when.
 
 ### **The New World (Instrument):**
+
 ```python
 # Framework as an instrument for the model
 class LangGraphInstrument:
@@ -77,12 +81,15 @@ LangGraph is now an **instrument**—a tool that enables the reasoning model to 
 ## Why This Changes Everything
 
 ### **What I Expected (Based on Tutorials):**
+
 "LangGraph = sophisticated ReAct implementation with complex orchestration"
 
 ### **What I Found:**
+
 "LangGraph = glorified tool wrapper + state manager"
 
 ### **What I Realized:**
+
 "That's actually BETTER! The model should do the thinking!"
 
 ## The Technical Reality
@@ -95,6 +102,7 @@ Modern reasoning models (Claude, OpenAI o1, DeepSeek-R1) have **internalized** t
 - ✅ Adapt their strategy mid-task
 
 What they DO need is:
+
 - 🔧 **Tool access** (LangGraph provides this)
 - 💾 **State management** (LangGraph provides this)  
 - 🔄 **Memory persistence** (LangGraph provides this)
@@ -105,12 +113,14 @@ What they DO need is:
 My weekend discovery mirrors what's happening industry-wide:
 
 ### **Recently Obsoleted:**
+
 - ❌ Manual ReAct orchestration
 - ❌ Complex prompt chaining frameworks
 - ❌ External reasoning loop management
 - ❌ Thought-Action-Observation templating
 
 ### **Newly Essential:**
+
 - ✅ Reasoning model optimization
 - ✅ Tool ecosystem design
 - ✅ Context engineering
@@ -121,9 +131,11 @@ My weekend discovery mirrors what's happening industry-wide:
 If you're feeling confused about the current state of AI agents, you're not alone. The ground has shifted beneath our feet faster than documentation could keep up.
 
 ### **Old Job Description:**
+
 "Expert in ReAct Agent architecture, custom orchestration, prompt chaining..."
 
 ### **New Reality:**
+
 "Expert in reasoning model integration, tool binding, infrastructure design..."
 
 ## The Silver Lining
@@ -131,6 +143,7 @@ If you're feeling confused about the current state of AI agents, you're not alon
 This isn't a loss—it's **abstraction elevation**. We've moved from worrying about the plumbing to focusing on the architecture.
 
 Instead of:
+
 ```python
 # 100 lines of orchestration logic
 def manual_react_loop():
@@ -142,6 +155,7 @@ def manual_react_loop():
 ```
 
 We now have:
+
 ```python
 # The essence of what matters
 reasoning_model.bind_tools(domain_tools)
@@ -150,7 +164,7 @@ result = reasoning_model.invoke(complex_problem)
 
 ## My Weekend Takeaway
 
-Sometimes the best way to understand the future is to spend a weekend trying to learn the past. 
+Sometimes the best way to understand the future is to spend a weekend trying to learn the past.
 
 What I thought would be a weekend of mastering complex agent orchestration became a masterclass in recognizing paradigm shifts in real-time.
 
