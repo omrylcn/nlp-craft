@@ -5,6 +5,7 @@ This repository is a comprehensive collection of resources covering the latest a
 ## 📚 Learning Resources & Fundamentals
 
 ### Video Lectures & Courses
+- [Stanford CS336 Language Modeling from Scratch](https://youtube.com/playlist?list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_&si=T9q16Og-ex7gLN6p)
 - [Yann Dubois: Scalable Evaluation of Large Language Models - video](https://www.youtube.com/watch?v=ZaQYM-YF1rM&ab_channel=MayurNaik)
 - [Stanford CS229 I Machine Learning I Building Large Language Models - video](https://www.youtube.com/watch?v=9vM4p9NN0Ts&ab_channel=StanfordOnline)
 
