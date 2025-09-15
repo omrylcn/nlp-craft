@@ -1,96 +1,140 @@
-# Context Engineering
+# A README for Context Engineering
 
-## Papers
+## Introduction
 
-- [A Survey of Context Engineering for Large Language Models] https://arxiv.org/abs/2507.13334
+Context Engineering is the discipline of designing and building dynamic systems that provide the right information, tools, in the right format, at the right time, to give an LLM everything it needs to accomplish a task.
 
-## Blogs
+## Why Context Engineering Matters
 
-- https://www.dbreunig.com/2025/06/22/how-contexts-fail-and-how-to-fix-them.html?ref=blog.langchain.com
-- https://www.dbreunig.com/2025/06/26/how-to-fix-your-context.html
-- https://www.anthropic.com/engineering/built-multi-agent-research-system
-- https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus
+- **Key to Agent Success**: The main factor determining whether AI agents succeed or fail is the quality of context provided to them
+- **Limited Working Memory**: LLMs have limited context windows, making effective utilization critical
+- **Beyond Static Approaches**: Context engineering requires dynamic systems, not just static prompts
 
-## Repository:
+## Core Characteristics of Context Engineering
 
-- https://github.com/langchain-ai/context_engineering
-- https://github.com/davidkimai/Context-Engineering
-- https://github.com/coleam00/context-engineering-intro
-- https://github.com/humanlayer/12-factor-agents?tab=readme-ov-file
+### 1. System Approach
 
+- Context is not just a string, but the output of a system that runs before the main LLM call
+- Much more complex than static prompt templates
 
-## Context Engineering Notes
+### 2. Dynamic Nature
 
-## 1 - The New Skill in AI is Not Prompting, It's Context Engineering
+- Created on the fly, tailored to the immediate task
+- Could be calendar data for one request, emails for another, or web search results
 
-- <https://www.philschmid.de/context-engineering>
+### 3. Right Information and Tools
 
-![alt text](image.png)
+- Ensures the model isn't missing crucial details (following "Garbage In, Garbage Out" principle)
+- Provides both knowledge (information) and capabilities (tools) only when required and helpful
 
-- Context Engineering is the discipline of designing and building dynamic systems that provides the right information and tools, in the right format, at the right time, to give a LLM everything it needs to accomplish a task.
+### 4. Format Matters
 
-- With the rise of Agents it becomes more important what information we load into the “limited working memory”. We are seeing that the main thing that determines whether an Agents succeeds or fails is the quality of the context you give it
+- How information is presented is critical
+- Concise summaries are better than raw data dumps
+- Clear tool schemas are better than vague instructions
 
-- The magic isn't in a smarter model or a more clever algorithm. It’s in about providing the right context for the right task. This is why context engineering will matter. Agent failures aren't only model failures; they are context failures.
+## Context Engineering Patterns
 
-- Context Engineering is the discipline of designing and building dynamic systems that provides the right information and tools, in the right format, at the right time, to give a LLM everything it needs to accomplish a task.
+### Writing Context
 
-- Context Engineering is:
+Saving context outside the context window to help an agent perform a task
 
-  - A System, Not a String: Context isn't just a static prompt template. It’s the output of a system that runs before the main LLM call.
+### Selecting Context
 
-  - Dynamic: Created on the fly, tailored to the immediate task. For one request this could be the calendar data for another the emails or a web search.
+Pulling context into the context window to help an agent perform a task
 
-  - About the right information, tools at the right time: The core job is to ensure the model isn’t missing crucial details ("Garbage In, Garbage Out"). This means providing both knowledge (information) and capabilities (tools) only when required and helpful.
+### Compressing Context
 
-  - where the format matters: How you present information matters. A concise summary is better than a raw data dump. A clear tool schema is better than a vague instruction.
+Retaining only the tokens required to perform a task
 
+### Isolating Context
 
+Splitting context up to help an agent perform a task
 
-## 2 - The rise of "context engineering"
+## Context Problems
 
-- https://blog.langchain.com/the-rise-of-context-engineering/
+### Context Poisoning
 
-- “prompts” to “context”? Early on, developers focused on phrasing prompts cleverly to coax better answers. But as applications grow more complex, it’s becoming clear that providing complete and structured context to the AI is far more important than any magic wording.
+When a hallucination makes it into the context
 
+### Context Distraction
 
-- prompt engineering is a subset of context engineering. Even if you have all the context, how you assemble it in the prompt still absolutely matters. The difference is that you are not architecting your prompt to work well with a single set of input data, but rather to take a set of dynamic data and format it properly.
+When the context overwhelms the training
 
+### Context Confusion
 
-## 3 - Context Engineering - langchain blog
+When superfluous context influences the response
 
-link : https://blog.langchain.com/context-engineering-for-agents/
+### Context Clash
 
-![alt text](image-1.png)
+When parts of the context disagree
 
-- Andrej Karpathy puts it, LLMs are like a new kind of operating system. The LLM is like the CPU and its context window is like the RAM, serving as the model’s working memory. Just like RAM, the LLM context window has limited capacity to handle various sources of context. And just as an operating system curates what fits into a CPU’s RAM, we can think about “context engineering”
+## Alternative to Multi-Agent Approaches
 
+### Principle 1: Share Context Fully
 
-- Long-running tasks and accumulating feedback from tool calls mean that agents often utilize a large number of tokens. This can cause numerous problems: it can exceed the size of the context window, balloon cost / latency, or degrade agent performance. Drew Breunig nicely outlined a number of specific ways that longer context can cause perform problems, including:
+- Share full agent traces, not just individual messages
+- Share complete context across agents
 
-  - Context Poisoning: When a hallucination makes it into the context
-  - Context Distraction: When the context overwhelms the training
-  - Context Confusion: When superfluous context influences the response
-  - Context Clash: When parts of the context disagree
+### Principle 2: Actions Carry Implicit Decisions
 
+- Every action contains implicit decisions
+- Use specialized models to compress action history and conversation into key details
 
-- A few common patterns seen across many popular agents today:
-  - Writing context - saving it outside the context window to help an agent perform a task.
-  - Selecting context - pulling it into the context window to help an agent perform a task.
-  - Compressing context - retaining only the tokens required to perform a task.
-  - Isolating context - splitting it up to help an agent perform a task.
+## LLM and Context Relationship
 
+As Andrej Karpathy puts it, LLMs are like a new kind of operating system:
 
-## Don’t Build Multi-Agents
+- **LLM = CPU**: Processing unit
+- **Context Window = RAM**: Limited capacity working memory
+- **Context Engineering = Operating System**: System that curates what fits into the CPU's RAM
 
-- https://cognition.ai/blog/dont-build-multi-agents#applying-the-principles
+## Resources
 
-- Principle 1 : Share context, and share full agent traces, not just individual messages
+### Academic Papers
 
-- Principle 2 : Actions carry implicit decisions, and
+- [A Survey of Context Engineering for Large Language Models](https://arxiv.org/abs/2507.13334)
 
-- new LLM model whose key purpose is to compress a history of actions & conversation into key details, events, and decisions. This is hard to get right. It takes investment into figuring out what ends up being the key information and creating a system that is good at this. Depending on the domain, you might even consider fine-tuning a smaller model (this is in fact something we’ve done at Cognition).
+### Blog Posts
 
-The benefit you get is an agent that is effective at longer contexts. You will still eventually hit a limit though. For the avid reader, I encourage you to think of better ways to manage arbitrarily long contexts. It ends up being quite a deep rabbit hole!
+- [How Contexts Fail and How to Fix Them](https://www.dbreunig.com/2025/06/22/how-contexts-fail-and-how-to-fix-them.html?ref=blog.langchain.com)
+- [How to Fix Your Context](https://www.dbreunig.com/2025/06/26/how-to-fix-your-context.html)
+- [Built Multi-Agent Research System](https://www.anthropic.com/engineering/built-multi-agent-research-system)
+- [Context Engineering for AI Agents: Lessons from Building Manus](https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus)
+- [Context Rot: How Increasing Input Tokens Impacts LLM Performance](https://research.trychroma.com/context-rot)
+- [The New Skill in AI is Not Prompting, It's Context Engineering](https://www.philschmid.de/context-engineering)
+- [The Rise of Context Engineering](https://blog.langchain.com/the-rise-of-context-engineering/)
+- [Context Engineering for Agents](https://blog.langchain.com/context-engineering-for-agents/)
 
-![alt text](image-2.png)
+### GitHub Repositories
+
+- [langchain-ai/context_engineering](https://github.com/langchain-ai/context_engineering)
+- [davidkimai/Context-Engineering](https://github.com/davidkimai/Context-Engineering)
+- [coleam00/context-engineering-intro](https://github.com/coleam00/context-engineering-intro)
+- [humanlayer/12-factor-agents](https://github.com/humanlayer/12-factor-agents?tab=readme-ov-file)
+
+## Key Insights
+
+### Prompt Engineering vs Context Engineering
+
+- Prompt engineering is a subset of context engineering
+- While prompt phrasing matters, providing complete and structured context is far more important
+- Context engineering involves architecting prompts to work with dynamic data, not just single input sets
+
+### Agent Performance Optimization
+
+- Agent failures aren't just model failures; they are context failures
+- The magic isn't in smarter models or clever algorithms, but in providing the right context for the right task
+- Long-running tasks and tool call feedback can cause token bloat, leading to performance degradation
+
+## Best Practices
+
+1. **Design for Dynamics**: Build systems that adapt context based on immediate needs
+2. **Optimize Format**: Structure information for clarity and relevance
+3. **Manage Token Economy**: Balance completeness with efficiency
+4. **Monitor Context Quality**: Watch for poisoning, distraction, confusion, and clash issues
+5. **Share Full Context**: When using multiple agents, share complete traces rather than partial information
+
+## Conclusion
+
+Context Engineering represents a fundamental shift from static prompt optimization to dynamic information management systems. As AI applications become more complex, mastering context engineering becomes essential for building reliable, effective AI agents and systems.
