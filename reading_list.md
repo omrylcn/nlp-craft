@@ -272,20 +272,6 @@
 
 ---
 
-## 🎯 Next Steps (Cursor'da Kullanım)
-
-### Cursor'da Abstract Çekme Komutu:
-```
-Her bir makale için:
-1. arXiv linkini aç
-2. Abstract'ı çek
-3. 2-3 cümlelik özet yaz (TR)
-4. Key contributions listele (3-5 bullet)
-5. Taksonomi: [kategori1, kategori2, kategori3]
-6. Senin Turkish financial LLM çalışmana nasıl uygulanabilir - 1 cümle
-```
-
-
 ## 📊 Kategori Breakdown
 
 ### SFT & Fine-tuning (6 makale)
