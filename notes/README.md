@@ -1,6 +1,6 @@
 # NLP & LLM Notes
 
-Bu klasör, NLP ve LLM konularında kapsamlı Türkçe ve İngilizce notlar içermektedir.
+This folder contains comprehensive notes on NLP and LLM topics in both Turkish and English.
 
 ---
 
@@ -10,42 +10,42 @@ Bu klasör, NLP ve LLM konularında kapsamlı Türkçe ve İngilizce notlar içe
 
 | File | Description | Language |
 |------|-------------|----------|
-| [bert(tr).md](bert(tr).md) | BERT: Kapsamlı teorik ve pratik inceleme, varyantlar (DeBERTa-v3, ModernBERT) | TR |
-| [gpt(tr).md](gpt(tr).md) | GPT modelleri: Teorik analiz, GPT-4o, o1 serisi, açık kaynak modeller | TR |
-| [glm(tr).md](glm(tr).md) | Generative Language Models: Kapsamlı araştırma rehberi | TR |
-| [moe(tr).md](moe(tr).md) | Mixture of Experts: Mimari, routing, güncel modeller (Mixtral, DeepSeek-MoE) | TR |
-| [encoder&decoder(tr).md](encoder&decoder(tr).md) | Encoder-Only vs Decoder-Only: Teknik analiz ve karşılaştırma | TR |
-| [encoder&decoders_usage(tr).md](encoder&decoders_usage(tr).md) | Encoder vs Decoder: Pratik kullanım rehberi | TR |
+| [bert(tr).md](bert(tr).md) | BERT: Comprehensive theoretical and practical guide, variants (DeBERTa-v3, ModernBERT) | TR |
+| [gpt(tr).md](gpt(tr).md) | GPT Models: Theoretical analysis, GPT-4o, o1 series, open-source models | TR |
+| [glm(tr).md](glm(tr).md) | Generative Language Models: Comprehensive research guide | TR |
+| [moe(tr).md](moe(tr).md) | Mixture of Experts: Architecture, routing, recent models (Mixtral, DeepSeek-MoE) | TR |
+| [encoder&decoder(tr).md](encoder&decoder(tr).md) | Encoder-Only vs Decoder-Only: Technical analysis and comparison | TR |
+| [encoder&decoders_usage(tr).md](encoder&decoders_usage(tr).md) | Encoder vs Decoder: Practical usage guide | TR |
 | [emergent_abilities.md](emergent_abilities.md) | Emergent Abilities: Literature review, ICL, CoT, controversies | EN |
 
 ### Sentence Embeddings & Semantic Similarity
 
 | File | Description | Language |
 |------|-------------|----------|
-| [sbert(tr).md](sbert(tr).md) | BERT, RoBERTa, Sentence-BERT: Kapsamlı rehber | TR |
-| [semantic(tr).md](semantic(tr).md) | Transformer tabanlı semantik modelleme | TR |
-| [semantic_similarity(tr).md](semantic_similarity(tr).md) | BERT ile metin embedding ve benzerlik analizi | TR |
+| [sbert(tr).md](sbert(tr).md) | BERT, RoBERTa, Sentence-BERT: Comprehensive guide | TR |
+| [semantic(tr).md](semantic(tr).md) | Transformer-based semantic modeling | TR |
+| [semantic_similarity(tr).md](semantic_similarity(tr).md) | Text embeddings and similarity analysis with BERT | TR |
 
 ### NLI & STS
 
 | File | Description | Language |
 |------|-------------|----------|
 | [nli.md](nli.md) | Natural Language Inference: Comprehensive guide | EN |
-| [nli&sts(tr).md](nli&sts(tr).md) | NLI ve STS: Derin teorik ve pratik analiz | TR |
-| [nli&sts_loss(tr).md](nli&sts_loss(tr).md) | STS ve NLI: Loss fonksiyonları ve değerlendirme | TR |
+| [nli&sts(tr).md](nli&sts(tr).md) | NLI and STS: Deep theoretical and practical analysis | TR |
+| [nli&sts_loss(tr).md](nli&sts_loss(tr).md) | STS and NLI: Loss functions and evaluation | TR |
 
 ### Fine-Tuning & PEFT
 
 | File | Description | Language |
 |------|-------------|----------|
 | [lora(tr).md](lora(tr).md) | LoRA: Zero to Hero - QLoRA, DoRA, LoRA+, VeRA | TR |
-| [peft(tr).md](peft(tr).md) | Parameter-Efficient Fine-Tuning: Teorik temeller | TR |
+| [peft(tr).md](peft(tr).md) | Parameter-Efficient Fine-Tuning: Theoretical foundations | TR |
 
 ### RAG & Retrieval
 
 | File | Description | Language |
 |------|-------------|----------|
-| [rag(tr).md](rag(tr).md) | RAG: Teorik temeller, güncel yaklaşımlar (GraphRAG, CRAG, Self-RAG) | TR |
+| [rag(tr).md](rag(tr).md) | RAG: Theoretical foundations, recent approaches (GraphRAG, CRAG, Self-RAG) | TR |
 
 ### Prompt Engineering
 
@@ -101,7 +101,7 @@ Key evaluation approaches:
 | Category | Count |
 |----------|-------|
 | Turkish (TR) | 15 files |
-| English (EN) | 2 files + prompt/|
+| English (EN) | 3 files + prompt/ |
 
 ---
 
