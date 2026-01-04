@@ -720,6 +720,49 @@ BERT'in başarısından sonra birçok türevi geliştirilmiştir:
 - Daha verimli eğitim: Tüm token'lar üzerinde eğitim yapar, sadece maskelenmiş olanlar değil
 - Aynı hesaplama kaynakları ile daha iyi performans sağlar
 
+**DeBERTa-v3 (2021-2023)**
+
+- Microsoft tarafından geliştirilen, BERT'in en güçlü varyantlarından biri
+- Disentangled Attention: İçerik ve pozisyon bilgisini ayrı ayrı işler
+- Enhanced Mask Decoder: MLM tahminini iyileştirir
+- DeBERTa-v3 (2023): ELECTRA tarzı eğitim ile daha da geliştirilmiş
+- SuperGLUE benchmark'ta insan seviyesini aşan ilk modellerden biri
+
+```python
+from transformers import AutoModel, AutoTokenizer
+
+# DeBERTa-v3 kullanımı
+model = AutoModel.from_pretrained("microsoft/deberta-v3-base")
+tokenizer = AutoTokenizer.from_pretrained("microsoft/deberta-v3-base")
+```
+
+**ModernBERT (Aralık 2024)**
+
+- Answer.AI ve LightOn tarafından geliştirilen yeni nesil encoder modeli
+- Modern mimari optimizasyonları:
+  - Rotary Position Embeddings (RoPE)
+  - GeGLU aktivasyon fonksiyonu
+  - Flash Attention 2 entegrasyonu
+  - Alternating local (128 token) ve global attention
+- 8192 token context window (BERT'in 512'sine karşı)
+- 2 trilyon token üzerinde eğitilmiş
+- Aynı boyutta BERT/RoBERTa'dan önemli ölçüde daha iyi performans
+
+```python
+from transformers import AutoModel, AutoTokenizer
+
+# ModernBERT kullanımı
+model = AutoModel.from_pretrained("answerdotai/ModernBERT-base")
+tokenizer = AutoTokenizer.from_pretrained("answerdotai/ModernBERT-base")
+```
+
+| Model | Yıl | Parametre | Context | GLUE Score | Özellikler |
+|-------|-----|-----------|---------|------------|------------|
+| BERT-base | 2018 | 110M | 512 | 79.6 | Orijinal |
+| RoBERTa-base | 2019 | 125M | 512 | 87.6 | Daha iyi eğitim |
+| DeBERTa-v3-base | 2023 | 86M | 512 | 88.1 | Disentangled attention |
+| ModernBERT-base | 2024 | 149M | 8192 | 88.0+ | Modern optimizasyonlar |
+
 ### 10.2 Türkçe BERT Modelleri
 
 Türkçe için geliştirilen ve kullanılabilen BERT modelleri:

@@ -1,5 +1,0 @@
-- functional correctness
-- similarity measures
-- exact match is not good
-- lexical similarity
-- semantic similarity

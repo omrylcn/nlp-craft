@@ -24,6 +24,35 @@ Bu formülasyon, geri alınan her bilgi parçasının, nihai yanıta katkısın�
 
 RAG sistemlerinde retrieval, genellikle bir sorguyu bir belge koleksiyonuna karşı arayarak en alakalı belgeleri bulma sürecidir. Bu süreç, vektör uzayında benzerlik hesaplamalarına dayanır.
 
+#### Güncel Embedding Modelleri (2024)
+
+| Model | Geliştirici | Boyut | MTEB Skoru | Özellikler |
+|-------|-------------|-------|------------|------------|
+| text-embedding-3-large | OpenAI | 3072 | 64.6 | Matryoshka embeddings, değişken boyut |
+| text-embedding-3-small | OpenAI | 1536 | 62.3 | Düşük maliyet, yüksek hız |
+| voyage-3 | Voyage AI | 1024 | 67.2 | RAG için optimize edilmiş |
+| voyage-3-lite | Voyage AI | 512 | 63.5 | Hızlı, düşük maliyetli |
+| Cohere embed-v3 | Cohere | 1024 | 66.3 | Çok dilli, compression destekli |
+| BGE-M3 | BAAI | 1024 | 66.0 | Çok dilli, multi-vector |
+| E5-Mistral-7B-Instruct | Microsoft | 4096 | 66.6 | LLM tabanlı, instruction-tuned |
+| GTE-Qwen2-7B-instruct | Alibaba | 3584 | 67.2 | Çok dilli, yüksek performans |
+| Jina-embeddings-v3 | Jina AI | 1024 | 65.4 | Task-specific LoRA adaptörleri |
+| NV-Embed-v2 | NVIDIA | 4096 | 69.3 | SOTA performans (2024) |
+
+**Matryoshka Embeddings**: OpenAI'ın text-embedding-3 modelleri, boyut kesme (dimension truncation) özelliği sunar. Örneğin 3072 boyutlu vektörü 256 boyuta indirebilirsiniz - bu, depolama ve hız için avantajlıdır.
+
+```python
+# OpenAI text-embedding-3 ile boyut kesme örneği
+from openai import OpenAI
+client = OpenAI()
+
+response = client.embeddings.create(
+    model="text-embedding-3-large",
+    input="RAG sistemleri için metin embeddingi",
+    dimensions=256  # 3072 yerine 256 boyut kullan
+)
+```
+
 #### 1.2.1 Vektör Uzayı Modeli
 
 Sorgu $q$ ve belge $d$, bir vektör uzayına gömülür (embedding):
@@ -73,6 +102,80 @@ $$\text{Girdi} = \text{[BOS]} \text{ } x \text{ [SEP] } z \text{ [EOS]}$$
 Burada [BOS], [SEP] ve [EOS] özel başlangıç, ayırıcı ve bitiş tokenleridir.
 
 ## 2. RAG Mimarileri ve Varyantları
+
+### 2.0 RAG Taksonomisi ve Güncel Yaklaşımlar (2024)
+
+RAG teknolojisi hızla evrimleşmektedir. Güncel yaklaşımları şu şekilde sınıflandırabiliriz:
+
+| Kategori | Yaklaşım | Açıklama | Örnekler |
+|----------|----------|----------|----------|
+| **Naive RAG** | Temel retrieve-then-read | Basit embedding + retrieval + generation | LangChain basit RAG |
+| **Advanced RAG** | Pre/Post-retrieval optimization | Query rewriting, re-ranking, compression | LlamaIndex, Cohere RAG |
+| **Modular RAG** | Modüler pipeline tasarımı | Değiştirilebilir bileşenler | Custom enterprise RAG |
+| **Agentic RAG** | LLM agent tabanlı | Router, tool use, iterative retrieval | LangGraph, AutoGPT |
+
+#### Güncel RAG Varyantları (2023-2024)
+
+1. **GraphRAG** (Microsoft, 2024): Knowledge graph entegrasyonu ile yapısal bilgi kullanımı
+2. **Corrective RAG (CRAG)**: Retrieval sonuçlarını doğrulama ve düzeltme
+3. **Self-RAG**: Modelin kendi retrieval ihtiyacına karar vermesi
+4. **Adaptive RAG**: Query karmaşıklığına göre strateji seçimi
+5. **HyDE (Hypothetical Document Embeddings)**: Hipotetik cevap ile retrieval
+6. **Parent Document Retrieval**: Chunk + parent document stratejisi
+7. **Contextual Compression**: Retrieved içeriğin sıkıştırılması
+8. **Multi-Query RAG**: Tek query'den multiple query üretimi
+
+```python
+# Güncel RAG pipeline örneği (2024)
+class ModernRAGPipeline:
+    def __init__(self):
+        self.query_analyzer = QueryAnalyzer()
+        self.query_rewriter = QueryRewriter()
+        self.retriever = HybridRetriever()  # Dense + Sparse
+        self.reranker = CrossEncoderReranker()
+        self.compressor = ContextualCompressor()
+        self.generator = LLM()
+        self.validator = ResponseValidator()
+
+    def process(self, query: str) -> str:
+        # 1. Query Analysis - complexity & intent
+        analysis = self.query_analyzer.analyze(query)
+
+        # 2. Query Enhancement
+        if analysis.needs_rewriting:
+            enhanced_queries = self.query_rewriter.rewrite(query)
+        else:
+            enhanced_queries = [query]
+
+        # 3. Hybrid Retrieval (Dense + BM25)
+        all_docs = []
+        for q in enhanced_queries:
+            docs = self.retriever.retrieve(q, k=10)
+            all_docs.extend(docs)
+
+        # 4. Deduplication & Reranking
+        unique_docs = deduplicate(all_docs)
+        reranked_docs = self.reranker.rerank(query, unique_docs, top_k=5)
+
+        # 5. Contextual Compression
+        compressed_context = self.compressor.compress(query, reranked_docs)
+
+        # 6. Generation with structured prompt
+        response = self.generator.generate(
+            query=query,
+            context=compressed_context,
+            instructions="Answer based only on the provided context."
+        )
+
+        # 7. Response Validation (hallucination check)
+        validated_response = self.validator.validate(
+            response=response,
+            context=compressed_context,
+            query=query
+        )
+
+        return validated_response
+```
 
 ### 2.1 Klasik RAG Mimarileri
 

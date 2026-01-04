@@ -33,6 +33,20 @@ MoE'nin derin öğrenme alanında yeniden canlanması, 2017'de Google'ın "Outra
 
 Son yıllarda, MoE modelleri Switch Transformers, GShard, Mixtral, ve diğer modern dil modelleriyle büyük ilgi görmüştür.
 
+#### Güncel MoE Modelleri (2023-2024)
+
+| Model | Geliştirici | Toplam Parametre | Aktif Parametre | Uzman Sayısı | Routing |
+|-------|-------------|------------------|-----------------|--------------|---------|
+| Mixtral 8x7B | Mistral AI | 46.7B | 12.9B | 8 | Top-2 |
+| Mixtral 8x22B | Mistral AI | 141B | 39B | 8 | Top-2 |
+| DeepSeek-MoE 16B | DeepSeek | 16.4B | 2.8B | 64 (shared) + 2 | Fine-grained |
+| DeepSeek-MoE 145B | DeepSeek | 145B | 22B | 160 | Fine-grained |
+| Qwen1.5-MoE-A2.7B | Alibaba | 14.3B | 2.7B | 60 + 4 shared | Top-4 |
+| DBRX | Databricks | 132B | 36B | 16 | Top-4 |
+| Arctic | Snowflake | 480B | 17B | 128 | Top-2 |
+| Grok-1 | xAI | 314B | ~86B | 8 | Top-2 |
+| JetMoE-8B | MIT | 8B | 2.2B | 8 | Top-2 |
+
 ### 1.3 Hesaplama Verimliliği Teorisi
 
 MoE modellerinin temel avantajı, hesaplama verimliliğidir. Bunun teorik nedeni şöyle açıklanabilir:
@@ -165,9 +179,129 @@ Bu, uzmanların parametre sayısını azaltırken, performansı geniş ölçüde
 
 ### 2.5 Mixtral ve Çok-Kipli MoE
 
-Mistral AI tarafından geliştirilen Mixtral 8x7B, MoE mimarisinin önemli bir örneğidir. Mixtral, 8 uzman ve her token için top-2 routing kullanan bir sparse MoE modelidir.
+Mistral AI tarafından geliştirilen Mixtral 8x7B (Aralık 2023) ve Mixtral 8x22B (Nisan 2024), MoE mimarisinin en başarılı örneklerinden biridir.
 
-Çok-kipli MoE (multi-query/multi-head MoE) ise, farklı dikkat kafaları veya katmanlar için farklı router'lar kullanır. Bu, farklı özellikteki verilerin farklı uzmanlara yönlendirilmesini sağlar:
+**Mixtral 8x7B Özellikleri:**
+- 8 uzman, her token için top-2 routing
+- Toplam 46.7B parametre, aktif 12.9B parametre
+- 32K context window
+- Llama 2 70B ile karşılaştırılabilir performans, 6x daha hızlı inference
+
+**Mixtral 8x22B Özellikleri:**
+- 8 uzman, her token için top-2 routing
+- Toplam 141B parametre, aktif 39B parametre
+- 64K context window
+- GPT-4 ile rekabet edebilir performans
+
+### 2.6 DeepSeek-MoE: Fine-Grained Expert Segmentation
+
+DeepSeek-MoE (Ocak 2024), geleneksel MoE'den farklı olarak "fine-grained expert segmentation" kullanır:
+
+```python
+# DeepSeek-MoE Fine-Grained Approach
+# Geleneksel: 8 büyük uzman
+# DeepSeek: 64 küçük uzman + 2 shared uzman
+
+class DeepSeekMoE(nn.Module):
+    def __init__(self, hidden_size, num_routed_experts=64, num_shared_experts=2, top_k=6):
+        super().__init__()
+        # Shared experts - her token tarafından kullanılır
+        self.shared_experts = nn.ModuleList([
+            Expert(hidden_size) for _ in range(num_shared_experts)
+        ])
+
+        # Routed experts - router tarafından seçilir
+        self.routed_experts = nn.ModuleList([
+            Expert(hidden_size) for _ in range(num_routed_experts)
+        ])
+
+        self.router = nn.Linear(hidden_size, num_routed_experts)
+        self.top_k = top_k
+
+    def forward(self, x):
+        # Shared expert outputs (her zaman hesaplanır)
+        shared_out = sum([expert(x) for expert in self.shared_experts])
+
+        # Routed expert outputs
+        router_logits = self.router(x)
+        router_probs = F.softmax(router_logits, dim=-1)
+        top_k_probs, top_k_indices = torch.topk(router_probs, k=self.top_k, dim=-1)
+
+        routed_out = self.compute_routed_output(x, top_k_probs, top_k_indices)
+
+        return shared_out + routed_out
+```
+
+**DeepSeek-MoE Avantajları:**
+- Daha ince granüler uzman seçimi
+- Shared expert'ler ile temel bilgi korunumu
+- Daha verimli parametre kullanımı (2.8B aktif parametre ile 7B dense model performansı)
+
+### 2.7 Soft MoE (2023)
+
+Google tarafından önerilen Soft MoE, discrete routing yerine soft (differentiable) routing kullanır:
+
+```python
+class SoftMoE(nn.Module):
+    """
+    Soft MoE: Tokenlar discrete olarak uzmanlara atanmak yerine,
+    tüm uzmanların çıktılarının weighted sum'ı hesaplanır.
+    Bu, tam differentiable bir routing sağlar.
+    """
+    def __init__(self, hidden_size, num_experts, num_slots_per_expert):
+        super().__init__()
+        self.num_experts = num_experts
+        self.num_slots = num_slots_per_expert
+
+        # Slot embeddings - her uzman için öğrenilebilir slotlar
+        self.slot_embeddings = nn.Parameter(
+            torch.randn(num_experts, num_slots_per_expert, hidden_size)
+        )
+
+        self.experts = nn.ModuleList([
+            Expert(hidden_size) for _ in range(num_experts)
+        ])
+
+    def forward(self, x):
+        # x: [batch, seq_len, hidden]
+        batch, seq_len, hidden = x.shape
+
+        # Dispatch weights: her token için her slot'a ağırlık
+        # slots: [num_experts * num_slots, hidden]
+        slots = self.slot_embeddings.view(-1, hidden)
+
+        # Dispatch scores
+        dispatch_scores = torch.einsum('bsh,kh->bsk', x, slots)
+        dispatch_weights = F.softmax(dispatch_scores, dim=1)  # Normalize over tokens
+
+        # Combine weights
+        combine_weights = F.softmax(dispatch_scores, dim=2)  # Normalize over slots
+
+        # Dispatch: tokens -> slots
+        slot_inputs = torch.einsum('bsk,bsh->kh', dispatch_weights, x)
+
+        # Expert computation
+        slot_outputs = []
+        for i, expert in enumerate(self.experts):
+            start = i * self.num_slots
+            end = start + self.num_slots
+            slot_outputs.append(expert(slot_inputs[start:end]))
+        slot_outputs = torch.cat(slot_outputs, dim=0)
+
+        # Combine: slots -> tokens
+        output = torch.einsum('bsk,kh->bsh', combine_weights, slot_outputs)
+
+        return output
+```
+
+**Soft MoE Avantajları:**
+- Tam differentiable - gradyan akışı kesintisiz
+- Token dropping yok
+- Load balancing loss'a ihtiyaç duymaz
+
+### 2.8 Çok-Kipli MoE (Multi-Head MoE)
+
+Çok-kipli MoE (multi-query/multi-head MoE), farklı dikkat kafaları veya katmanlar için farklı router'lar kullanır. Bu, farklı özellikteki verilerin farklı uzmanlara yönlendirilmesini sağlar:
 
 ```
 # Multi-query MoE
@@ -1325,6 +1459,8 @@ def moe_as_ensemble_analysis(moe_model, base_models, test_dataset):
 
 ## 8. Referanslar
 
+### Temel Makaleler
+
 1. Jacobs, R. A., Jordan, M. I., Nowlan, S. J., & Hinton, G. E. (1991). Adaptive Mixtures of Local Experts. Neural Computation, 3(1), 79-87.
 
 2. Shazeer, N., Mirhoseini, A., Maziarz, K., Davis, A., Le, Q., Hinton, G., & Dean, J. (2017). Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer. ICLR.
@@ -1335,22 +1471,32 @@ def moe_as_ensemble_analysis(moe_model, base_models, test_dataset):
 
 5. Du, N., Huang, Y., Dai, A. M., Tong, S., Lepikhin, D., Xu, Y., ... & Yang, Y. (2021). GLaM: Efficient Scaling of Language Models with Mixture-of-Experts. arXiv preprint arXiv:2112.06905.
 
+### Routing ve Load Balancing
+
 6. Kudugunta, S., Huang, Y., Bapna, A., Anil, R., Lepikhin, D., Chen, D., ... & Le, Q. (2023). Mixture-of-Experts with Expert Choice Routing. arXiv preprint arXiv:2202.09368.
 
-7. Puigcerver, J., Riquelme, C., Mustafa, B., & Houlsby, N. (2023). Sparse Upcycling: Training Mixture-of-Experts from Dense Checkpoints. arXiv preprint arXiv:2212.05055.
+7. Puigcerver, J., Riquelme, C., Mustafa, B., & Houlsby, N. (2023). From Sparse to Soft Mixtures of Experts. arXiv preprint arXiv:2308.00951.
 
-8. Rajbhandari, S., Rasley, J., Ruwase, O., & He, Y. (2020). Zero: Memory Optimizations Toward Training Trillion Parameter Models. arXiv preprint arXiv:2010.14870.
+8. Roller, S., Sukhbaatar, S., Szlam, A., & Weston, J. (2021). Hash Layers For Large Sparse Models. NeurIPS.
 
-9. Roller, S., Sukhbaatar, S., Szlam, A., & Weston, J. (2021). Hash Layers For Large Sparse Models. NeurIPS.
+9. Zoph, B., Bello, I., Kumar, S., Du, N., Huang, Y., Dean, J., ... & Fedus, W. (2022). Designing Effective Sparse Expert Models. arXiv preprint arXiv:2202.08906.
 
-10. Zoph, B., Bello, I., Kumar, S., Du, N., Huang, Y., Dean, J., ... & Fedus, W. (2022). Designing Effective Sparse Expert Models. arXiv preprint arXiv:2202.08906.
+### Güncel MoE Modelleri (2023-2024)
 
-11. Zuo, S., Liang, C., Jiang, H., Liu, X., He, P., Wang, Y., ... & Liu, Z. (2022). Taming Sparsely Activated Transformer with Stochastic Experts. ICLR.
+10. Jiang, A. Q., Sablayrolles, A., Roux, A., et al. (2024). Mixtral of Experts. arXiv preprint arXiv:2401.04088.
 
-12. Lewis, M., Bhosale, S., Dettmers, T., Goyal, N., & Zettlemoyer, L. (2021). BASE Layers: Simplifying Training of Large, Sparse Models. arXiv preprint arXiv:2103.16716.
+11. Dai, D., Deng, C., Zhao, C., et al. (2024). DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models. arXiv preprint arXiv:2401.06066.
 
-13. Zhou, D., Kang, B., Wei, J., Chen, W., & Zhou, B. (2022). DoReMi: Optimizing Data Mixtures Speeds Up Language Model Pretraining. arXiv preprint arXiv:2305.10429.
+12. Databricks (2024). DBRX: A New State-of-the-Art Open LLM. Databricks Blog.
 
-14. Clark, K., Polsley, S., Saab, K., & Chandar, S. (2022). Unified Scaling Laws for Routed Language Models. arXiv preprint arXiv:2202.01169.
+13. Snowflake (2024). Arctic: The Top Open Source LLM. Snowflake Blog.
 
-15. Jiang, Y., Shen, S., Cui, J., Ren, X., Gu, J., & Yin, P. (2023). Fast Mixture-of-Experts with Heterogeneous Experts. arXiv preprint arXiv:2305.15242.
+14. Shen, S., Hou, L., Zhou, Y., et al. (2024). JetMoE: Reaching Llama2 Performance with 0.1M Dollars. arXiv preprint arXiv:2404.07413.
+
+### Optimizasyon ve Altyapı
+
+15. Rajbhandari, S., Rasley, J., Ruwase, O., & He, Y. (2020). Zero: Memory Optimizations Toward Training Trillion Parameter Models. arXiv preprint arXiv:2010.14870.
+
+16. Hwang, C., Cui, W., Xiong, Y., et al. (2023). Tutel: Adaptive Mixture-of-Experts at Scale. arXiv preprint arXiv:2206.03382.
+
+17. Gale, T., Narayanan, D., Young, C., & Zaharia, M. (2023). MegaBlocks: Efficient Sparse Training with Mixture-of-Experts. arXiv preprint arXiv:2211.15841.

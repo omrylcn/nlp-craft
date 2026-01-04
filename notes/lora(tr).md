@@ -2513,12 +2513,117 @@ outputs = model.generate(**inputs, max_new_tokens=100)
 print(tokenizer.decode(outputs[0]))
 ```
 
-### 11.5 İleri Okuma ve Kaynaklar
+### 11.5 LoRA Varyantları ve Güncel Gelişmeler (2023-2024)
+
+#### DoRA: Weight-Decomposed Low-Rank Adaptation
+
+DoRA (2024), LoRA'nın bir uzantısı olarak, ağırlık matrisini **magnitude** ve **direction** bileşenlerine ayırır:
+
+```python
+# DoRA konsepti
+# Standart LoRA: W = W₀ + BA
+# DoRA: W = m * (W₀ + BA) / ||W₀ + BA||
+
+# m: magnitude vektörü (öğrenilebilir)
+# direction: normalize edilmiş ağırlık
+
+from peft import LoraConfig, TaskType
+
+# DoRA kullanımı (PEFT v0.10+)
+config = LoraConfig(
+    r=16,
+    lora_alpha=32,
+    target_modules=["q_proj", "v_proj"],
+    use_dora=True,  # DoRA aktifleştir
+)
+```
+
+**DoRA Avantajları:**
+- Full fine-tuning'e daha yakın performans
+- Daha stabil eğitim
+- Özellikle NLU görevlerinde iyileşme
+
+#### LoRA+: Farklı Learning Rate
+
+LoRA+ (2024), A ve B matrislerine farklı learning rate uygular:
+
+```python
+# LoRA+ konsepti
+# Standart LoRA: lr_A = lr_B = lr
+# LoRA+: lr_B = lr, lr_A = η * lr (η > 1, tipik η=16)
+
+# Hugging Face PEFT'te henüz native destek yok, manuel implementasyon:
+from torch.optim import AdamW
+
+# Parametre grupları oluştur
+lora_a_params = [p for n, p in model.named_parameters() if "lora_A" in n]
+lora_b_params = [p for n, p in model.named_parameters() if "lora_B" in n]
+
+optimizer = AdamW([
+    {"params": lora_a_params, "lr": 1e-4 * 16},  # A matrisi için yüksek lr
+    {"params": lora_b_params, "lr": 1e-4},       # B matrisi için standart lr
+])
+```
+
+#### rsLoRA: Rank-Stabilized LoRA
+
+rsLoRA, scaling faktörünü rank'a göre ayarlar:
+
+```python
+# rsLoRA konsepti
+# Standart LoRA: scaling = α / r
+# rsLoRA: scaling = α / √r
+
+from peft import LoraConfig
+
+config = LoraConfig(
+    r=64,
+    lora_alpha=64,
+    use_rslora=True,  # rsLoRA aktifleştir (PEFT v0.9+)
+)
+```
+
+#### VeRA: Vector-Based Random Matrix Adaptation
+
+VeRA (2023), A ve B matrislerini random sabit matrisler + trainable scaling vektörleri olarak ifade eder:
+
+```python
+# VeRA konsepti: Çok düşük parametre sayısı
+# W = W₀ + Λ_b * B * Λ_d * A
+# B, A: Frozen random matrices
+# Λ_b, Λ_d: Trainable diagonal scaling
+
+# PEFT'te (v0.11+):
+from peft import VeraConfig
+
+config = VeraConfig(
+    r=256,  # VeRA ile yüksek rank kullanılabilir
+    target_modules=["q_proj", "v_proj"],
+)
+```
+
+#### LoRA Varyantları Karşılaştırma Tablosu
+
+| Varyant | Trainable Params | Özellik | Kullanım Alanı |
+|---------|------------------|---------|----------------|
+| LoRA | 2×d×r | Standart low-rank | Genel amaçlı |
+| QLoRA | 2×d×r | 4-bit quantization | Düşük bellek |
+| DoRA | 2×d×r + d | Magnitude-direction | Yüksek performans |
+| LoRA+ | 2×d×r | Farklı lr A ve B | Daha hızlı yakınsama |
+| rsLoRA | 2×d×r | √r scaling | Yüksek rank için stabil |
+| VeRA | 2×d | Random frozen + scaling | Ultra düşük parametre |
+| AdaLoRA | Değişken | Adaptive rank | Otomatik rank seçimi |
+
+### 11.6 İleri Okuma ve Kaynaklar
 
 **Orijinal Papers:**
 
 - LoRA: <https://arxiv.org/abs/2106.09685>
 - QLoRA: <https://arxiv.org/abs/2305.14314>
+- DoRA: <https://arxiv.org/abs/2402.09353>
+- LoRA+: <https://arxiv.org/abs/2402.12354>
+- VeRA: <https://arxiv.org/abs/2310.11454>
+- AdaLoRA: <https://arxiv.org/abs/2303.10512>
 - Prefix Tuning: <https://arxiv.org/abs/2101.00190>
 
 **Hugging Face Docs:**

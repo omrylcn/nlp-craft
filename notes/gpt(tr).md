@@ -372,18 +372,53 @@ PPO algoritması adımları:
 3. $\mathcal{L}_{RL}(\phi)$'ye göre politika parametrelerini güncelleyin
 4. Adım 1-3'ü yakınsama olana kadar tekrarlayın
 
-### 4.5 GPT-4'ün Teknik Özellikleri
+### 4.5 GPT-4 ve Sonrası: Teknik Özellikleri
 
+#### GPT-4 (Mart 2023)
 Tam mimari detaylar açıklanmamış olsa da, bilinen teknik özellikleri:
 
 - Çok daha büyük parametre sayısı (tahmin edilen 1-10 trillion arası)
-- Genişletilmiş bağlam uzunluğu (32K tokens)
+- Genişletilmiş bağlam uzunluğu (32K tokens, GPT-4 Turbo ile 128K)
 - Multimodal yetenek (vision-language modeli)
 - Geliştirilmiş RLHF metodolojisi (muhtemelen RLAIF entegrasyonu)
 
 Vision-encoder entegrasyonu:
 - Görüntülerin gömme vektörlerine dönüştürülmesi için muhtemelen ViT veya Swin Transformer tabanlı bir encoder
 - Cross-attention (Flamingo modelinde gibi) veya token gömmelerin doğrudan birleştirilmesi (multimodal projections)
+
+#### GPT-4o ve o1 Serisi (2024)
+
+**GPT-4o (Mayıs 2024):**
+- "Omni" multimodal model - metin, ses, görüntü native entegrasyonu
+- End-to-end multimodal processing
+- Çok düşük gecikme süresi (audio için 232ms)
+
+**o1-preview ve o1-mini (Eylül 2024):**
+- "Reasoning" modeli - Chain-of-Thought (CoT) içsel reasoning
+- Karmaşık matematik ve bilimsel akıl yürütme
+- Test-time compute scaling
+
+### 4.6 Güncel Açık Kaynak GPT-Tarzı Modeller (2024)
+
+| Model | Geliştirici | Parametreler | Context | Özellikler |
+|-------|-------------|--------------|---------|------------|
+| Llama 3.1 405B | Meta | 405B | 128K | Açık ağırlıklar, çok dilli |
+| Llama 3.2 | Meta | 1B-90B | 128K | Multimodal (Vision) |
+| Mistral Large 2 | Mistral AI | 123B | 128K | Multilingual, code |
+| Mixtral 8x22B | Mistral AI | 141B (39B active) | 64K | MoE architecture |
+| Qwen2.5 | Alibaba | 0.5B-72B | 128K | Çok dilli, math/code güçlü |
+| DeepSeek-V2.5 | DeepSeek | 236B | 128K | MoE, coding focus |
+| Gemma 2 | Google | 2B-27B | 8K | Açık ağırlıklar |
+| Phi-3 | Microsoft | 3.8B-14B | 128K | Küçük ama güçlü |
+| Command R+ | Cohere | 104B | 128K | RAG optimized |
+
+**Önemli Mimari Trendler (2024):**
+
+1. **Sliding Window Attention**: Mistral'ın 4K sliding window + 32K context yaklaşımı
+2. **Grouped Query Attention (GQA)**: Llama 2/3, Mistral - KV cache optimizasyonu
+3. **Mixture of Experts (MoE)**: Mixtral, DeepSeek, Qwen-MoE
+4. **RoPE Uzantıları**: YaRN, NTK-aware, Longrope
+5. **Flash Attention**: Standart inference optimizasyonu
 
 ## 5. GPT Çıkarım Stratejileri ve Dekoding Algoritmaları
 
