@@ -1,6 +1,6 @@
 # Notes
 
-## Book Notes
+## Handson LLM Book Notes
 
 ## Next Token Prediction and Autoregressive Model
 
