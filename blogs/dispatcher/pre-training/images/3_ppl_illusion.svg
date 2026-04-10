@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 340" font-family="system-ui, -apple-system, sans-serif">
+  <rect width="660" height="340" fill="#fafafa" rx="8"/>
+
+  <!-- Title -->
+  <text x="330" y="30" text-anchor="middle" fill="#333" font-size="16" font-weight="700">Ayni PPL, Tamamen Farkli Model</text>
+
+  <!-- Model A box -->
+  <rect x="30" y="50" width="280" height="230" rx="12" fill="white" stroke="#1E88E5" stroke-width="2"/>
+  <text x="170" y="78" text-anchor="middle" fill="#1E88E5" font-size="15" font-weight="700">Model A</text>
+
+  <!-- PPL badge A -->
+  <rect x="125" y="90" width="90" height="30" rx="15" fill="#E3F2FD"/>
+  <text x="170" y="110" text-anchor="middle" fill="#1565C0" font-size="14" font-weight="700">PPL: 15</text>
+
+  <!-- Bars A -->
+  <text x="50" y="152" fill="#555" font-size="13">Dil</text>
+  <rect x="90" y="139" width="170" height="18" rx="4" fill="#4CAF50"/>
+  <text x="268" y="153" fill="#4CAF50" font-size="12" font-weight="600">10/10</text>
+
+  <text x="50" y="184" fill="#555" font-size="13">Bilgi</text>
+  <rect x="90" y="171" width="34" height="18" rx="4" fill="#F44336"/>
+  <text x="132" y="185" fill="#F44336" font-size="12" font-weight="600">2/10</text>
+
+  <text x="50" y="216" fill="#555" font-size="13">Iliski</text>
+  <rect x="90" y="203" width="51" height="18" rx="4" fill="#FF9800"/>
+  <text x="149" y="217" fill="#FF9800" font-size="12" font-weight="600">3/10</text>
+
+  <text x="170" y="258" text-anchor="middle" fill="#888" font-size="11" font-style="italic">Dili biliyor ama dunyayi bilmiyor</text>
+
+  <!-- VS -->
+  <text x="330" y="175" text-anchor="middle" fill="#bbb" font-size="30" font-weight="900">vs</text>
+
+  <!-- Model B box -->
+  <rect x="350" y="50" width="280" height="230" rx="12" fill="white" stroke="#E53935" stroke-width="2"/>
+  <text x="490" y="78" text-anchor="middle" fill="#E53935" font-size="15" font-weight="700">Model B</text>
+
+  <!-- PPL badge B -->
+  <rect x="445" y="90" width="90" height="30" rx="15" fill="#FFEBEE"/>
+  <text x="490" y="110" text-anchor="middle" fill="#C62828" font-size="14" font-weight="700">PPL: 15</text>
+
+  <!-- Bars B -->
+  <text x="370" y="152" fill="#555" font-size="13">Dil</text>
+  <rect x="410" y="139" width="34" height="18" rx="4" fill="#F44336"/>
+  <text x="452" y="153" fill="#F44336" font-size="12" font-weight="600">2/10</text>
+
+  <text x="370" y="184" fill="#555" font-size="13">Bilgi</text>
+  <rect x="410" y="171" width="153" height="18" rx="4" fill="#4CAF50"/>
+  <text x="571" y="185" fill="#4CAF50" font-size="12" font-weight="600">9/10</text>
+
+  <text x="370" y="216" fill="#555" font-size="13">Iliski</text>
+  <rect x="410" y="203" width="68" height="18" rx="4" fill="#FF9800"/>
+  <text x="486" y="217" fill="#FF9800" font-size="12" font-weight="600">4/10</text>
+
+  <text x="490" y="258" text-anchor="middle" fill="#888" font-size="11" font-style="italic">Bilgisi var ama morfolojisi dokuluyor</text>
+
+  <!-- Caption -->
+  <text x="330" y="320" text-anchor="middle" fill="#999" font-size="12" font-style="italic">PPL ayni skoru verir — ama biri finans chatbot'u icin ise yarar, digeri yaramaz.</text>
+</svg>

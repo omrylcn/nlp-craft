@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" font-family="system-ui, -apple-system, sans-serif">
+  <rect width="600" height="420" fill="#fafafa" rx="8"/>
+
+  <!-- Title -->
+  <text x="300" y="30" text-anchor="middle" fill="#333" font-size="16" font-weight="700">Pre-training'den Beklenen 3 Katman</text>
+
+  <!-- Layer 3 — top (triangle shape) -->
+  <polygon points="300,55 460,165 140,165" fill="#FFCDD2" stroke="#E53935" stroke-width="2"/>
+  <text x="300" y="115" text-anchor="middle" fill="#B71C1C" font-size="15" font-weight="700">Kavramlar Arası İlişki</text>
+  <text x="300" y="135" text-anchor="middle" fill="#C62828" font-size="11">"faiz artınca döviz düşer"</text>
+
+  <!-- Layer 2 — middle -->
+  <polygon points="140,175 460,175 500,275 100,275" fill="#C8E6C9" stroke="#43A047" stroke-width="2"/>
+  <text x="300" y="215" text-anchor="middle" fill="#1B5E20" font-size="15" font-weight="700">Dünyayı Bilmek (Olgusal Bilgi)</text>
+  <text x="300" y="238" text-anchor="middle" fill="#2E7D32" font-size="11">"döviz", "FAVÖK", "Ankara", "borsa"</text>
+
+  <!-- Layer 1 — base -->
+  <polygon points="100,285 500,285 530,370 70,370" fill="#BBDEFB" stroke="#1E88E5" stroke-width="2"/>
+  <text x="300" y="322" text-anchor="middle" fill="#0D47A1" font-size="15" font-weight="700">Dili Bilmek</text>
+  <text x="300" y="345" text-anchor="middle" fill="#1565C0" font-size="11">ünlü uyumu, özne-yüklem, söz dizimi</text>
+
+  <!-- Arrow + note on left -->
+  <line x1="50" y1="360" x2="50" y2="70" stroke="#666" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="42" y="220" fill="#666" font-size="11" transform="rotate(-90, 42, 220)">karmaşıklık artar</text>
+
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#666"/>
+    </marker>
+  </defs>
+
+  <!-- Right side notes -->
+  <text x="540" y="135" fill="#E53935" font-size="10" text-anchor="start">CPT şart</text>
+  <text x="540" y="230" fill="#43A047" font-size="10" text-anchor="start">RAG veya CPT</text>
+  <text x="540" y="335" fill="#1E88E5" font-size="10" text-anchor="start">Model değiştir</text>
+
+  <!-- Caption -->
+  <text x="300" y="405" text-anchor="middle" fill="#999" font-size="11" font-style="italic">Alt katman sağlam olmazsa üstü çöker. Fine-tune hiçbirini kazandırmaz.</text>
+</svg>

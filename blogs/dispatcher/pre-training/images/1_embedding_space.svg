@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" font-family="system-ui, -apple-system, sans-serif">
+  <rect width="600" height="400" fill="#fafafa" rx="8"/>
+
+  <!-- Axes -->
+  <line x1="80" y1="350" x2="560" y2="350" stroke="#ccc" stroke-width="1.5"/>
+  <line x1="80" y1="350" x2="80" y2="40" stroke="#ccc" stroke-width="1.5"/>
+
+  <!-- Cluster circle -->
+  <ellipse cx="320" cy="180" rx="160" ry="130" fill="none" stroke="#e0e0e0" stroke-width="1.5" stroke-dasharray="8,4"/>
+  <text x="320" y="330" text-anchor="middle" fill="#bbb" font-size="13" font-style="italic">meyve kümesi</text>
+
+  <!-- Elma -->
+  <circle cx="250" cy="150" r="10" fill="#4CAF50"/>
+  <text x="265" y="145" fill="#333" font-size="15" font-weight="600">elma</text>
+
+  <!-- Armut -->
+  <circle cx="300" cy="110" r="10" fill="#8BC34A"/>
+  <text x="315" y="105" fill="#333" font-size="15" font-weight="600">armut</text>
+
+  <!-- Mandalina -->
+  <circle cx="380" cy="160" r="10" fill="#FF9800"/>
+  <text x="395" y="155" fill="#333" font-size="15" font-weight="600">mandalina</text>
+
+  <!-- Portakal -->
+  <circle cx="400" cy="210" r="10" fill="#FF5722"/>
+  <text x="415" y="205" fill="#333" font-size="15" font-weight="600">portakal</text>
+
+  <!-- Muz -->
+  <circle cx="230" cy="220" r="10" fill="#FFEB3B"/>
+  <text x="245" y="215" fill="#333" font-size="15" font-weight="600">muz</text>
+
+  <!-- kasdJ — highlighted -->
+  <circle cx="310" cy="180" r="14" fill="none" stroke="#E91E63" stroke-width="2.5" stroke-dasharray="5,3"/>
+  <circle cx="310" cy="180" r="8" fill="#E91E63"/>
+  <text x="310" y="175" text-anchor="middle" fill="#E91E63" font-size="17" font-weight="700" dy="-18">kasdJ</text>
+  <text x="310" y="175" text-anchor="middle" fill="#E91E63" font-size="11" dy="-4">???</text>
+
+  <!-- Distant words -->
+  <circle cx="140" cy="80" r="7" fill="#9E9E9E"/>
+  <text x="155" y="78" fill="#999" font-size="13">araba</text>
+
+  <circle cx="500" cy="80" r="7" fill="#9E9E9E"/>
+  <text x="480" y="72" fill="#999" font-size="13">bilgisayar</text>
+
+  <circle cx="480" cy="300" r="7" fill="#9E9E9E"/>
+  <text x="460" y="295" fill="#999" font-size="13">masa</text>
+
+  <circle cx="130" cy="290" r="7" fill="#9E9E9E"/>
+  <text x="145" y="288" fill="#999" font-size="13">kitap</text>
+
+  <!-- Title -->
+  <text x="300" y="28" text-anchor="middle" fill="#333" font-size="16" font-weight="700">Embedding Space: Anlamca yakın kelimeler yakın konumlanır</text>
+
+  <!-- Caption -->
+  <text x="300" y="385" text-anchor="middle" fill="#999" font-size="11" font-style="italic">"kasdJ" kelimesi hiç tanımlanmasa da, bağlamdan meyve kümesine yerleşir</text>
+</svg>
