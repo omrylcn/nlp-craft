@@ -1,0 +1,35 @@
+[project]
+name = "lab-env"
+version = "0.1.0"
+description = "Reusable LLM lab environment — copy to any server and run uv sync"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    # Core ML — pinned to versions that support Qwen3.5
+    "torch>=2.10",
+    "transformers>=5.5",         # Qwen3.5 model_type requires 5.2+
+    "trl>=0.24",                 # latest stable, Qwen3.5 support
+    "peft",
+    "accelerate",
+    "datasets",
+    "bitsandbytes",
+    "sentencepiece",
+    # Unsloth — 2026.4+ required for transformers 5.x compatibility
+    "unsloth>=2026.4",
+    "unsloth_zoo>=2026.4",
+    # NVIDIA CUDA libs (sometimes missed by torch deps after lock upgrade)
+    "nvidia-cusparselt-cu12",
+    "nvidia-nvshmem-cu12",
+    # Notebook + UI
+    "jupyterlab",
+    "ipywidgets",
+    # Eval / utilities
+    "rouge-score",
+    "scikit-learn",
+    "matplotlib",
+    "seaborn",
+    "pandas",
+    "numpy",
+    "pyyaml",
+    "tqdm",
+    "requests",
+]
