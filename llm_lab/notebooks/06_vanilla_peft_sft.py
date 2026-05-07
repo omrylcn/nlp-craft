@@ -35,7 +35,7 @@ model = AutoModelForCausalLM.from_pretrained(
 )
 print(f'Model: {sum(p.numel() for p in model.parameters())/1e9:.2f}B params loaded')
 
-# QLoRA için ZORUNLU
+# REQUIRED for QLoRA
 model = prepare_model_for_kbit_training(model)
 model.config.use_cache = False                   # gradient checkpointing compat
 
@@ -45,7 +45,7 @@ lora_config = LoraConfig(
     target_modules = ['q_proj','k_proj','v_proj','o_proj','gate_proj','up_proj','down_proj'],
     lora_dropout = 0,
     bias = 'none',
-    task_type = 'CAUSAL_LM',                     # PEFT'te ZORUNLU (Unsloth otomatik)
+    task_type = 'CAUSAL_LM',                     # REQUIRED in PEFT (Unsloth does it automatically)
 )
 model = get_peft_model(model, lora_config)
 model.print_trainable_parameters()
@@ -67,8 +67,8 @@ train_raw = raw[:int(n*0.85)]
 dataset = Dataset.from_list([alpaca_to_conversations(e) for e in train_raw])
 print(f'Train: {len(dataset)}')
 
-# Format — vanilla'da Unsloth'un standardize_data_formats yok
-# Direkt apply_chat_template
+# Format — vanilla has no Unsloth standardize_data_formats helper
+# Use apply_chat_template directly
 def fmt(examples):
     return {'text': [
         tokenizer.apply_chat_template(m, tokenize=False, add_generation_prompt=False)
@@ -98,7 +98,7 @@ trainer = SFTTrainer(
         gradient_checkpointing = True,
         gradient_checkpointing_kwargs = {'use_reentrant': False},
         max_length = 2048,
-        # assistant_only_loss = True,            # Qwen3 chat template `{% generation %}` destekliyor
+        # assistant_only_loss = True,            # Qwen3 chat template supports `{% generation %}`
     ),
     processing_class = tokenizer,
 )
@@ -117,15 +117,15 @@ print(f"Train loss:    {trainer_stats.metrics['train_loss']:.4f}")
 print(f"Peak VRAM:     {used} GB")
 print(f"Sec / step:    {trainer_stats.metrics['train_runtime']/60:.2f}")
 
-# A. LoRA adapter (PEFT standart)
+# A. LoRA adapter (PEFT standard)
 model.save_pretrained('vanilla_sft_lora')
 tokenizer.save_pretrained('vanilla_sft_lora')
 print('LoRA saved: vanilla_sft_lora/')
 
-# B. Merged 16-bit (PEFT'in merge_and_unload metodu)
+# B. Merged 16-bit (PEFT's merge_and_unload method)
 # merged = model.merge_and_unload()
 # merged.save_pretrained('vanilla_sft_merged', safe_serialization=True)
 # tokenizer.save_pretrained('vanilla_sft_merged')
 
-# Dikkat: Unsloth'un save_pretrained_merged ve save_pretrained_gguf metodları yok vanilla'da.
-# GGUF için ayrıca llama.cpp convert-hf-to-gguf.py kullan.
+# Note: Unsloth's save_pretrained_merged and save_pretrained_gguf methods don't exist in vanilla.
+# For GGUF, use llama.cpp convert-hf-to-gguf.py separately.

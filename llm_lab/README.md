@@ -1,29 +1,29 @@
-# lab_env — Yeniden Kullanılabilir LLM Lab Ortamı
+# lab_env — Reusable LLM Lab Environment
 
-Yapı:
+Layout:
 ```
 lab_env/
-├── pyproject.toml          # uv proje (transformers, trl, unsloth, peft, jupyterlab)
+├── pyproject.toml          # uv project (transformers, trl, unsloth, peft, jupyterlab)
 └── notebooks/
-    ├── 01_sft_modern.ipynb     # ch07'nin 2026 versiyonu (Unsloth + TRL SFTTrainer)
-    └── ref/                    # referans notebook'lar (read-only)
+    ├── 01_sft_modern.ipynb     # 2026 version of ch07 (Unsloth + TRL SFTTrainer)
+    └── ref/                    # reference notebooks (read-only)
         ├── pre-training-evaluation.ipynb
         ├── model_analysis.ipynb
         └── tokenizer.ipynb
 ```
 
-## Kurulum
+## Setup
 
-Yerelden server'a kopyala:
+Copy from local to server:
 ```bash
 rsync -avz --exclude='.venv' --exclude='__pycache__' lab_env/ vast-ai:/root/lab_env/
 ```
 
-Server'da:
+On the server:
 ```bash
 ssh vast-ai
 cd /root/lab_env
-uv sync                                 # paketleri indir + venv kur
+uv sync                                 # download packages + create venv
 uv run python -c "import torch, unsloth; print('OK')"
 ```
 
@@ -34,39 +34,39 @@ cd /root/lab_env
 uv run jupyter lab --ip=0.0.0.0 --port=8080 --no-browser --allow-root
 ```
 
-SSH config'de `LocalForward 8080 localhost:8080` varsa: `http://localhost:8080`
+If your SSH config has `LocalForward 8080 localhost:8080`: `http://localhost:8080`
 
-## Notebook Akışı
+## Notebook Flow
 
-| # | Notebook | Amaç |
-|---|----------|------|
-| 1 | `01_sft_modern.ipynb` | SFT — Qwen3-0.6B-Base'i instruction-following hale getir |
-| ref | `pre-training-evaluation.ipynb` | 18-bölümlük evaluation (base modeli ölç) |
-| ref | `model_analysis.ipynb` | Mimari/parametre/weight analizi |
-| ref | `tokenizer.ipynb` | Tokenizer fertility (Türkçe için kritik) |
+| # | Notebook | Purpose |
+|---|----------|---------|
+| 1 | `01_sft_modern.ipynb` | SFT — turn Qwen3-0.6B-Base into an instruction-following model |
+| ref | `pre-training-evaluation.ipynb` | 18-section evaluation suite (measure the base model) |
+| ref | `model_analysis.ipynb` | Architecture / parameter / weight analysis |
+| ref | `tokenizer.ipynb` | Tokenizer fertility (critical for Turkish) |
 
-## Kritik Notlar (TRL v1.3 + Unsloth 2025.7)
+## Critical Notes (TRL v1.3 + Unsloth 2025.7)
 
-- **`import unsloth` EN BAŞTA** — yoksa optimizasyonlar uygulanmaz
-- **`assistant_only_loss=True`** — chat template `{% generation %}` keyword'lerine ihtiyaç duyar (Qwen3 için TRL otomatik patch yapar)
-- **`use_gradient_checkpointing='unsloth'`** — uzun context + düşük VRAM için
-- **`processing_class=tokenizer`** — TRL v1.3'te `tokenizer=` deprecated
-- **`packing=True`** — kısa örneklerde 2-4x hız ama `assistant_only_loss` ile uyumsuz olabilir
-- **`completion_only_loss`** prompt-completion format için (messages değil)
+- **`import unsloth` MUST come first** — otherwise the optimizations don't get applied
+- **`assistant_only_loss=True`** — the chat template has to contain the `{% generation %}` keywords (TRL patches this automatically for Qwen3)
+- **`use_gradient_checkpointing='unsloth'`** — for long context + low VRAM
+- **`processing_class=tokenizer`** — `tokenizer=` is deprecated in TRL v1.3
+- **`packing=True`** — 2-4x speed-up on short examples but may be incompatible with `assistant_only_loss`
+- **`completion_only_loss`** — for prompt-completion format (not messages)
 
-## Yeni Server İçin
+## For a New Server
 
-1. `~/.ssh/config` `vast-ai` host güncelle (yeni IP/port)
-2. `rsync` ile bu klasörü kopyala
+1. Update the `vast-ai` host in `~/.ssh/config` (new IP/port)
+2. `rsync` this folder over
 3. `uv sync`
-4. Notebook'lar zaten içinde
+4. The notebooks are already inside
 
-## Versiyon Pinleri
+## Version Pins
 
-| Paket | Pin Sebebi |
-|-------|-----------|
-| `transformers>=5.2` | Qwen3.5 model_type için zorunlu |
+| Package | Pin Reason |
+|---------|------------|
+| `transformers>=5.2` | Required for the Qwen3.5 model_type |
 | `trl` | latest (1.3+) — Qwen3.5 support |
-| `unsloth` | latest 2026.4+ — yeni transformers ile uyumlu |
+| `unsloth` | latest 2026.4+ — compatible with the new transformers |
 
-xformers warnings normal (Python sürüm uyumsuzluğu) — Unsloth kendi kernel'larını kullanır.
+xformers warnings are normal (Python version mismatch) — Unsloth uses its own kernels.

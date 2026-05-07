@@ -1,5 +1,5 @@
-import unsloth                                # MUTLAKA EN BAŞTA
-from unsloth import FastModel                  # FastLanguageModel DEĞİL — Gemma 4 multimodal-native
+import unsloth                                # MUST be the very first import
+from unsloth import FastModel                  # NOT FastLanguageModel - Gemma 4 is multimodal-native
 from unsloth.chat_templates import (
     get_chat_template,
     standardize_data_formats,
@@ -16,21 +16,21 @@ if torch.cuda.is_available():
 model, tokenizer = FastModel.from_pretrained(
     model_name = "unsloth/gemma-4-E2B-it",
     dtype = None,                           # auto-detect (bf16 if Ampere+)
-    max_seq_length = 1024,                   # uzun context için artır
-    load_in_4bit = False,                   # 16-bit LoRA (16GB'a sığar). True = 4-bit QLoRA
-    full_finetuning = False,                # [NEW!] full FT artık var
-    # token = "YOUR_HF_TOKEN",              # gated modeller için
+    max_seq_length = 1024,                   # raise for longer context
+    load_in_4bit = False,                   # 16-bit LoRA (fits in 16GB). True = 4-bit QLoRA
+    full_finetuning = False,                # [NEW!] full FT now available
+    # token = "YOUR_HF_TOKEN",              # for gated models
 )
 
 model = FastModel.get_peft_model(
     model,
-    finetune_vision_layers     = False,    # Text-only SFT — vision tower'i dondur
-    finetune_language_layers   = True,     # LM ana gövde — açık
-    finetune_attention_modules = True,     # Attention — GRPO için de iyi
-    finetune_mlp_modules       = True,     # MLP — her zaman açık
+    finetune_vision_layers     = False,    # Text-only SFT - freeze the vision tower
+    finetune_language_layers   = True,     # LM body - on
+    finetune_attention_modules = True,     # Attention - also good for GRPO
+    finetune_mlp_modules       = True,     # MLP - always on
 
-    r = 8,                                  # Larger = higher accuracy ama overfit riski
-    lora_alpha = 8,                         # alpha == r önerilir
+    r = 8,                                  # Larger = higher accuracy but overfit risk
+    lora_alpha = 8,                         # alpha == r recommended
     lora_dropout = 0,
     bias = "none",
     random_state = 3407,
@@ -38,10 +38,10 @@ model = FastModel.get_peft_model(
 
 tokenizer = get_chat_template(tokenizer, chat_template = "gemma-4")
 
-# Doğrula
+# Verify
 sample_msgs = [
-    {"role": "user", "content": "Faiz nedir?"},
-    {"role": "assistant", "content": "Faiz, paranin zaman degeridir."},
+    {"role": "user", "content": "What is interest?"},
+    {"role": "assistant", "content": "Interest is the time value of money."},
 ]
 formatted = tokenizer.apply_chat_template(sample_msgs, tokenize=False)
 print(formatted)
@@ -49,7 +49,7 @@ print(formatted)
 dataset = load_dataset("mlabonne/FineTome-100k", split = "train[:3000]")
 print(f'Raw rows: {len(dataset)}')
 
-# standardize_data_formats: ShareGPT/Alpaca → 'conversations' kolonu
+# standardize_data_formats: ShareGPT/Alpaca -> 'conversations' column
 dataset = standardize_data_formats(dataset)
 print(dataset[0])
 
@@ -75,11 +75,11 @@ trainer = SFTTrainer(
         gradient_accumulation_steps = 4,       # effective batch = 4
         warmup_steps = 5,
         max_steps = 60,                         # demo; production: num_train_epochs=1
-        learning_rate = 2e-4,                   # LoRA için. Long training: 2e-5
+        learning_rate = 2e-4,                   # for LoRA. Long training: 2e-5
         logging_steps = 1,
         optim = "adamw_8bit",
-        weight_decay = 0.001,                   # 0.001 — resmi default
-        lr_scheduler_type = "linear",           # linear — resmi default
+        weight_decay = 0.001,                   # 0.001 - official default
+        lr_scheduler_type = "linear",           # linear - official default
         seed = 3407,
         report_to = "none",
     ),
@@ -87,22 +87,22 @@ trainer = SFTTrainer(
 
 trainer = train_on_responses_only(
     trainer,
-    instruction_part = "<|turn>user\n",     # Gemma 4 markerı
-    response_part    = "<|turn>model\n",    # Gemma 4 markerı (assistant değil — 'model'!)
+    instruction_part = "<|turn>user\n",     # Gemma 4 marker
+    response_part    = "<|turn>model\n",    # Gemma 4 marker (not assistant - 'model'!)
 )
 
-# Masking dogrulama — 100. ornek
+# Masking verification - sample 100
 sample_idx = min(100, len(trainer.train_dataset) - 1)
 print("=== FULL INPUT (instruction + response) ===")
 print(tokenizer.decode(trainer.train_dataset[sample_idx]["input_ids"]))
 
-print("\n=== ONLY UNMASKED LABELS (sadece response gorunmeli) ===")
+print("\n=== ONLY UNMASKED LABELS (should only show the response) ===")
 print(tokenizer.decode([
     tokenizer.pad_token_id if x == -100 else x
     for x in trainer.train_dataset[sample_idx]["labels"]
 ]).replace(tokenizer.pad_token, " "))
 
-# Memory snapshot — resmi notebook'lardaki gibi
+# Memory snapshot - as in the official notebooks
 gpu_stats = torch.cuda.get_device_properties(0)
 start_gpu_memory = round(torch.cuda.max_memory_reserved() / 1024**3, 3)
 max_memory = round(gpu_stats.total_memory / 1024**3, 3)
@@ -127,7 +127,7 @@ messages = [{
 
 inputs = tokenizer.apply_chat_template(
     messages,
-    add_generation_prompt = True,           # ZORUNLU — generation icin
+    add_generation_prompt = True,           # MANDATORY for generation
     return_tensors = "pt",
     tokenize = True,
     return_dict = True,
@@ -136,11 +136,11 @@ inputs = tokenizer.apply_chat_template(
 _ = model.generate(
     **inputs,
     max_new_tokens = 128,
-    temperature = 1.0, top_p = 0.95, top_k = 64,    # Gemma 4 önerisi
+    temperature = 1.0, top_p = 0.95, top_k = 64,    # Gemma 4 recommendation
     streamer = TextStreamer(tokenizer, skip_prompt = True),
 )
 
-# A. LoRA adapter (en kucuk)
+# A. LoRA adapter (smallest)
 model.save_pretrained("gemma4_e2b_lora")
 tokenizer.save_pretrained("gemma4_e2b_lora")
 
@@ -158,7 +158,7 @@ tokenizer.save_pretrained("gemma4_e2b_lora")
 #     quantization_method = "q4_k_m",
 # )
 
-# D. Hub'a push
+# D. Push to Hub
 # model.push_to_hub("USER/gemma4_e2b_lora", token="hf_xxx")
 
 print("LoRA saved: gemma4_e2b_lora/")

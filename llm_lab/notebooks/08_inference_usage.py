@@ -14,7 +14,7 @@ model, tokenizer = FastLanguageModel.from_pretrained(
     full_finetuning = False,
 )
 
-# Chat template — doğru format için
+# Chat template — for the correct format
 tokenizer = get_chat_template(tokenizer, chat_template='qwen3-instruct')
 
 FastLanguageModel.for_inference(model)            # 2x faster
@@ -26,31 +26,31 @@ def gen_text(messages, **gen_kwargs):
     )
     inputs = tokenizer(text, return_tensors='pt').to('cuda')
     out = model.generate(**inputs, **gen_kwargs)
-    new_tokens = out[0][inputs['input_ids'].shape[1]:]   # KRITIK: prompt'u skip
+    new_tokens = out[0][inputs['input_ids'].shape[1]:]   # CRITICAL: skip the prompt
     return tokenizer.decode(new_tokens, skip_special_tokens=True)
 
-msgs = [{'role': 'user', 'content': 'Faiz nedir?'}]
+msgs = [{'role': 'user', 'content': 'What is interest?'}]
 print(gen_text(msgs, max_new_tokens=80, do_sample=False))   # greedy
 
 # Greedy (deterministic)
 print('--- Greedy ---')
 print(gen_text(msgs, max_new_tokens=60, do_sample=False))
 
-# Düşük temperature (focused)
+# Low temperature (focused)
 print('\n--- T=0.3 (focused) ---')
 print(gen_text(msgs, max_new_tokens=60, temperature=0.3, do_sample=True))
 
-# Yüksek temperature (creative)
+# High temperature (creative)
 print('\n--- T=1.5 (creative) ---')
 print(gen_text(msgs, max_new_tokens=60, temperature=1.5, top_p=0.95, do_sample=True))
 
-# Tekrar cezası
+# Repetition penalty
 print('\n--- repetition_penalty=1.3 ---')
 print(gen_text(msgs, max_new_tokens=60,
                temperature=0.7, top_p=0.8, top_k=20,
                repetition_penalty=1.3, do_sample=True))
 
-# A. TextStreamer — basit
+# A. TextStreamer — simple
 text = tokenizer.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True)
 inputs = tokenizer(text, return_tensors='pt').to('cuda')
 _ = model.generate(
@@ -80,9 +80,9 @@ thread.join()
 print(f'\n\nTotal: {len(collected)} chars')
 
 prompts = [
-    'Istanbul nerededir?',
-    'Kar nasil olusur?',
-    'Quantum nedir?',
+    'Where is Istanbul?',
+    'How does snow form?',
+    'What is quantum?',
 ]
 formatted = [
     tokenizer.apply_chat_template(
@@ -91,7 +91,7 @@ formatted = [
     ) for p in prompts
 ]
 
-tokenizer.padding_side = 'left'                  # ZORUNLU batch icin
+tokenizer.padding_side = 'left'                  # REQUIRED for batching
 batch_inputs = tokenizer(
     formatted, return_tensors='pt', padding=True,
 ).to('cuda')
@@ -111,8 +111,8 @@ for i, prompt in enumerate(prompts):
 
 tokenizer.padding_side = 'right'                 # restore
 
-# Thinking model yükle (önceki sectionlarda Qwen3-Instruct yüklemiştik)
-# Yeni session simülasyonu için modeli temizle
+# Load a thinking model (we loaded Qwen3-Instruct in earlier sections)
+# Clear the model to simulate a fresh session
 import gc
 del model
 gc.collect()
@@ -120,20 +120,20 @@ torch.cuda.empty_cache()
 
 model, tokenizer = FastLanguageModel.from_pretrained(
     'unsloth/Qwen3-4B-Thinking-2507',
-    max_seq_length = 4096,                       # think uzun olabilir
+    max_seq_length = 4096,                       # think can be long
     load_in_4bit = True,
 )
 tokenizer = get_chat_template(tokenizer, chat_template='qwen3-thinking')
 FastLanguageModel.for_inference(model)
 
-# Math problem — thinking model için ideal
-msgs = [{'role': 'user', 'content': 'Hesapla 137 * 49'}]
+# Math problem — ideal for a thinking model
+msgs = [{'role': 'user', 'content': 'Calculate 137 * 49'}]
 text = tokenizer.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True)
 inputs = tokenizer(text, return_tensors='pt').to('cuda')
 
 out = model.generate(
-    **inputs, max_new_tokens=1024,                # think için yer aç
-    temperature=0.6, top_p=0.95, top_k=20,        # thinking modeli önerisi
+    **inputs, max_new_tokens=1024,                # leave room for think
+    temperature=0.6, top_p=0.95, top_k=20,        # recommended for thinking models
     do_sample=True,
 )
 full = tokenizer.decode(out[0][inputs['input_ids'].shape[1]:], skip_special_tokens=True)
@@ -142,13 +142,13 @@ print(full[:800])
 
 import re
 
-# Strategy 1: <think>...</think> tam yakalama
+# Strategy 1: capture the full <think>...</think>
 think_match = re.search(r'<think>\s*(.*?)\s*</think>', full, re.DOTALL)
 if think_match:
     think_part = think_match.group(1).strip()
     final_part = re.sub(r'<think>.*?</think>\s*', '', full, count=1, flags=re.DOTALL).strip()
 else:
-    # Strategy 2: </think>'a kadar split (template prepended <think>, decoder dropped it)
+    # Strategy 2: split on </think> (template prepended <think>, decoder dropped it)
     if '</think>' in full:
         think_part, final_part = full.split('</think>', 1)
         think_part = think_part.strip()
@@ -165,7 +165,7 @@ print(final_part[:400])
 print(f'\n--- For UI (only final to user): ---')
 print(final_part)
 
-# Qwen3-Instruct yükle (tool calling için ideal)
+# Load Qwen3-Instruct (ideal for tool calling)
 import gc
 del model
 gc.collect()
@@ -179,7 +179,7 @@ model, tokenizer = FastLanguageModel.from_pretrained(
 tokenizer = get_chat_template(tokenizer, chat_template='qwen3-instruct')
 FastLanguageModel.for_inference(model)
 
-# Tools tanımla — OpenAI function-calling JSON schema
+# Define tools — OpenAI function-calling JSON schema
 import json
 
 tools = [{
@@ -222,7 +222,7 @@ TOOL_FNS = {'get_weather': get_weather, 'calculator': calculator}
 # Turn 1 — User asks, model decides to call tool
 conv = [
     {'role': 'system', 'content': 'You are a helpful assistant with tool access.'},
-    {'role': 'user',   'content': 'Istanbul hava nasil?'},
+    {'role': 'user',   'content': 'How is the weather in Istanbul?'},
 ]
 
 text = tokenizer.apply_chat_template(
@@ -231,7 +231,7 @@ text = tokenizer.apply_chat_template(
 inputs = tokenizer(text, return_tensors='pt').to('cuda')
 out = model.generate(
     **inputs, max_new_tokens=200,
-    temperature=0.3, top_p=0.8, top_k=20, do_sample=True,    # düşük T — JSON precision
+    temperature=0.3, top_p=0.8, top_k=20, do_sample=True,    # low T — JSON precision
 )
 response = tokenizer.decode(out[0][inputs['input_ids'].shape[1]:], skip_special_tokens=True)
 print('--- Model output ---')
@@ -260,13 +260,13 @@ else:
 # Turn 2 — Feed tool result, get final answer
 if tool_name:
     conv_full = conv + [
-        # Asistan'ın tool çağrısı
+        # Assistant's tool call
         {'role': 'assistant', 'content': '',
          'tool_calls': [{
              'id': 'call_1', 'type': 'function',
              'function': {'name': tool_name, 'arguments': tool_args},
          }]},
-        # Tool execution sonucu (role='tool', tool_call_id eşleşmeli)
+        # Tool execution result (role='tool', tool_call_id must match)
         {'role': 'tool', 'tool_call_id': 'call_1', 'name': tool_name,
          'content': json.dumps(result)},
     ]

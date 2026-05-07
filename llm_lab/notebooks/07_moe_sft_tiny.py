@@ -1,5 +1,5 @@
 import os
-os.environ['UNSLOTH_MOE_DISABLE_AUTOTUNE'] = '1'    # MUTLAKA unsloth import'undan ONCE
+os.environ['UNSLOTH_MOE_DISABLE_AUTOTUNE'] = '1'    # MUST be set BEFORE the unsloth import
 
 import unsloth
 from unsloth import FastLanguageModel
@@ -12,15 +12,15 @@ print(f'torch: {torch.__version__} | cuda: {torch.cuda.is_available()}')
 if torch.cuda.is_available():
     print(f'GPU: {torch.cuda.get_device_name(0)} | VRAM: {torch.cuda.get_device_properties(0).total_memory/1e9:.1f}GB')
 
-MODEL = 'imdatta0/tiny_qwen3_moe_2.8B_0.7B'         # T4-uyumlu
+MODEL = 'imdatta0/tiny_qwen3_moe_2.8B_0.7B'         # T4-compatible
 max_seq_length = 2048
 lora_rank = 32
 
 model, tokenizer = FastLanguageModel.from_pretrained(
     MODEL,
     max_seq_length = max_seq_length,
-    load_in_4bit = False,                            # MoE: 4-bit YOK
-    fast_inference = False,                          # MoE: vLLM YOK
+    load_in_4bit = False,                            # MoE: NO 4-bit
+    fast_inference = False,                          # MoE: NO vLLM
 )
 print(f'Model: {sum(p.numel() for p in model.parameters())/1e9:.2f}B params')
 
@@ -30,9 +30,9 @@ model = FastLanguageModel.get_peft_model(
     target_modules = [
         'q_proj', 'k_proj', 'v_proj', 'o_proj',
         'gate_proj', 'up_proj', 'down_proj',
-        'gate_up_proj',                               # MoE expert layers — KRITIK
+        'gate_up_proj',                               # MoE expert layers — CRITICAL
     ],
-    lora_alpha = lora_rank * 2,                       # 2x — resmi recipe
+    lora_alpha = lora_rank * 2,                       # 2x — official recipe
     use_gradient_checkpointing = True,
     random_state = 3407,
     bias = 'none',
